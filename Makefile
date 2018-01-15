@@ -2,9 +2,9 @@ NAME	=	fractol
 
 CC		=	gcc
 
-CFLAGS	=	-Wall -Wextra -Werror
+CFLAGS	=	
 
-SOURCE	=	source/color.c source/complex.c source/error.c source/event_handlers.c source/main.c
+SOURCE	=	source/color.c source/complex.c source/error.c source/event_handlers.c source/main.c source/mutate.c
 
 HEADERS	=	source/header.h
 
