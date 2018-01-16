@@ -29,32 +29,50 @@ int		get_fract_color(int i)
 
 void	fill_bulb(t_env *env)
 {
-	int			x;
-	int			y;
-	t_complex	z;
-	double		temp;
+	t_point		c;
+	t_point		c_flat;
+	t_point		z;
+	t_point		z_new;
 	int			*image_data;
 	int			i;
+	// int			pos;
 
 	image_data = (int *)mlx_get_data_addr(env->image, &(env->bits_per_pixel),
 	&(env->line_size), &(env->endian));
-	y = -1;
-	while (++y < env->height)
+	c.x = 0.0;
+	while (c.x < env->width)
 	{
-		x = -1;
-		while (++x < env->width)
+		c.y = 0.0;
+		while (c.y < env->height)
 		{
-			i = -1;
-			z.re = 0;
-			z.im = 0;
-			while ((z.re * z.re + z.im * z.im) < 4 && ++i < 256)
+			c.z = 0.0;
+			while (c.z < env->width)
 			{
-				temp = z.re * z.re - z.im * z.im + env->fract.shift.re + (x - env->width / 2) * env->fract.scale;
-				z.im = 2 * z.re * z.im + env->fract.shift.im + (y - env->height / 2) * env->fract.scale;
-				z.re = temp;
+				z.x = 0.005;
+				z.y = 0.005;
+				z.z = 0.005;
+				i = -1;
+				while ((z.x * z.x + z.y * z.y + z.z * z.z) < 8 && ++i < 256)
+				{
+					z_new.x = (3 * z.z * z.z - z.x * z.x - z.y * z.y) * z.x * (z.x * z.x - 3 * z.y * z.y) / (z.x * z.x + z.y * z.y) + (c.x - env->width / 2) / env->width;
+					z_new.y = (3 * z.z * z.z - z.x * z.x - z.y * z.y) * z.y * (3 * z.x * z.x - z.y * z.y) / (z.x * z.x + z.y * z.y) + (c.y - env->height / 2) / env->height;
+					z_new.z = z.z * (z.z * z.z - 3 * z.x * z.x - 3 * z.y * z.y) + (c.z - env->width / 2) / env->width;
+					z.x = z_new.x;
+					z.y = z_new.y;
+					z.z = z_new.z;
+				}
+				c_flat = get_modified_point(env, c);
+				mlx_pixel_put(env->mlx, env->wind, c_flat.x, c_flat.y, get_fract_color(i));
+				// pos = (int)c_flat.y * env->width + (int)c_flat.x;
+				// if (pos < env->line_size)
+				// {
+				// 	image_data[pos] = get_fract_color(i);
+				// }
+				c.z += 1.0;
 			}
-			image_data[y * env->width + x] = get_fract_color(i);
+			c.y += 1.0;
 		}
+		c.x += 1.0;
 	}
 }
 
@@ -128,7 +146,9 @@ void	draw(t_env *env)
 		fill_mandel_image(env);
 	else if (env->fract_type == 2)
 		fill_julia_image(env);
-	mlx_put_image_to_window (env->mlx, env->wind, env->image, 0, 0);
+	else if (env->fract_type == 3)
+		fill_bulb(env);
+	// mlx_put_image_to_window (env->mlx, env->wind, env->image, 0, 0);
 }
 
 t_env	*get_env(int fract)
@@ -137,8 +157,8 @@ t_env	*get_env(int fract)
 
 	env = (t_env *)malloc(sizeof(t_env));
 	env->mlx = mlx_init();
-	env->width = 1200;
-	env->height = 900;
+	env->width = 80;
+	env->height = 60;
 	env->bits_per_pixel = 32;
 	env->line_size = env->width * 4;
 	env->endian = 0;
@@ -157,7 +177,17 @@ t_env	*get_env(int fract)
 		env->fract.shift.re = -0.7;
 		env->fract.shift.im = 0.27015;
 	}
+	else if (fract == 3)
+	{
+		env->fract_type = 3;
+		env->fract.scale = 0.000005;
+		env->fract.shift.re = 0;
+		env->fract.shift.im = 0;
+	}
 	env->image = NULL;
+	env->ang_x = 0;
+	env->ang_y = 0;
+	env->ang_z = 0;
 	return (env);
 }
 

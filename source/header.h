@@ -15,6 +15,12 @@
 # define ARROW_DOWN 125
 # define ARROW_LEFT 123
 # define ARROW_RIGHT 124
+# define W 13
+# define A 0
+# define S 1
+# define D 2
+# define Q 12
+# define E 14
 # define SCALE_COEFFICIENT 20
 # define BLACK 0x000000
 # define RED 0xFF0000
@@ -86,5 +92,7 @@ void		draw(t_env *env);
 int			get_mid_color(int start, int end, double to_pass, double passed);
 
 int			get_color(int r, int g, int b);
+
+t_point			get_modified_point(t_env *env, t_point point);
 
 #endif

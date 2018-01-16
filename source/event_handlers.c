@@ -3,11 +3,17 @@
 int	key_handler(int keycode, t_env *env)
 {
 	keycode == ESC ? exit(0) : 0;
+	keycode == A ? (env->ang_y = (env->ang_y + 5) % 360) : 0;
+	keycode == D ? (env->ang_y = (env->ang_y - 5) % 360) : 0;
+	keycode == W ? (env->ang_x = (env->ang_x - 5) % 360) : 0;
+	keycode == S ? (env->ang_x = (env->ang_x + 5) % 360) : 0;
+	keycode == Q ? (env->ang_z = (env->ang_z + 5) % 360) : 0;
+	keycode == E ? (env->ang_z = (env->ang_z - 5) % 360) : 0;
 	// keycode == ARROW_LEFT ? env->fract.shift.re += env->fract.scale : 0;
 	// keycode == ARROW_RIGHT ? env->fract.shift.re -= env->fract.scale : 0;
 	// keycode == ARROW_UP ? env->fract.shift.im += env->fract.scale : 0;
 	// keycode == ARROW_DOWN ? env->fract.shift.im -= env->fract.scale : 0;
-	// draw(env);
+	draw(env);
 	return (0);
 }
 
