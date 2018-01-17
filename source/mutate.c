@@ -1,10 +1,5 @@
 #include "header.h"
 
-static double	degree_to_rad(int degree)
-{
-	return (((double)degree * M_PI) / 180.0);
-}
-
 t_point			get_modified_point(t_env *env, t_point point)
 {
 	t_point p0;
@@ -22,9 +17,9 @@ t_point			get_modified_point(t_env *env, t_point point)
 	p1.z = p0.z * cos(degree_to_rad(env->ang_y)) + p0.x
 		* sin(degree_to_rad(env->ang_y));
 	// rotated.x = (p1.x * cos(degree_to_rad(env->ang_z)) + p1.y
-	// 	* sin(degree_to_rad(env->ang_z))) + env->width /2;
+	// 	* sin(degree_to_rad(env->ang_z))) + WIDTH /2;
 	// rotated.y = (p1.y * cos(degree_to_rad(env->ang_z)) - p1.x
-	// 	* sin(degree_to_rad(env->ang_z))) + env->height / 2;
+	// 	* sin(degree_to_rad(env->ang_z))) + HEIGHT / 2;
 	// rotated.z = p1.z;
 	rotated.x = (p1.x * cos(degree_to_rad(env->ang_z)) + p1.y
 		* sin(degree_to_rad(env->ang_z)));

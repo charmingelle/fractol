@@ -4,7 +4,7 @@ CC		=	gcc
 
 CFLAGS	=	
 
-SOURCE	=	source/color.c source/complex.c source/error.c source/event_handlers.c source/main.c source/mutate.c
+SOURCE	=	source/color.c source/error.c source/event_handlers.c source/main.c source/mutate.c source/utils.c
 
 HEADERS	=	source/header.h
 

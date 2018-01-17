@@ -7,6 +7,9 @@
 
 # include <stdio.h>
 
+# define MIN(X, Y) (((X) < (Y)) ? (X) : (Y))
+# define WIDTH 800
+# define HEIGHT 600
 # define KEY_DOWN 2
 # define CROSS_CLICK 17
 # define MOUSE_MOVE 6
@@ -49,37 +52,28 @@ typedef struct	s_fract
 {
 	double		scale;
 	t_complex	shift;
+	t_complex	pivot;
 }				t_fract;
 
 typedef struct	s_env
 {
 	void		*mlx;
 	void		*wind;
-	int			width;
-	int			height;
 	int			bits_per_pixel;
 	int			line_size;
 	int			endian;
 	int			fract_type;
 	t_fract		fract;
 	void		*image;
+	int			*image_data;
 	int			palette[7];
 	int			ang_x;
 	int			ang_y;
 	int			ang_z;
+	int			z_buff[WIDTH * HEIGHT];
 }				t_env;
 
 int			show_usage_error();
-
-double		get_re(t_complex a);
-
-double		get_im(t_complex a);
-
-t_complex	get_sum(t_complex a, t_complex b);
-
-t_complex	get_prod(t_complex a, t_complex b);
-
-double		get_mod(t_complex a);
 
 int			key_handler(int keycode, t_env *env);
 
@@ -93,6 +87,10 @@ int			get_mid_color(int start, int end, double to_pass, double passed);
 
 int			get_color(int r, int g, int b);
 
-t_point			get_modified_point(t_env *env, t_point point);
+t_point		get_modified_point(t_env *env, t_point point);
+
+void		draw_circle(t_env *env, int c_x, int c_y, double rad);
+
+double		degree_to_rad(int degree);
 
 #endif

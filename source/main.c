@@ -1,5 +1,16 @@
 #include "header.h"
 
+void	clear_z_buffer(t_env *env)
+{
+	int	x;
+	int	y;
+
+	y = -1;
+	while (++y < HEIGHT && (x = -1))
+		while (++x < WIDTH)
+			env->z_buff[y * WIDTH + x] = 0;
+}
+
 int		get_fract_color(int i)
 {
 	static int palette[] = {
@@ -27,26 +38,35 @@ int		get_fract_color(int i)
 	return (palette[i % 139]);
 }
 
+void	fill_apoll(t_env *env)
+{
+	int		center_x;
+	int		center_y;
+	double	rad;
+
+	center_x = WIDTH / 2;
+	center_y = HEIGHT / 2;
+	rad = MIN(center_x, center_y);
+	draw_circle(env, center_x, center_y, rad);
+}
+
 void	fill_bulb(t_env *env)
 {
 	t_point		c;
 	t_point		c_flat;
 	t_point		z;
 	t_point		z_new;
-	int			*image_data;
 	int			i;
-	// int			pos;
+	int			pos;
 
-	image_data = (int *)mlx_get_data_addr(env->image, &(env->bits_per_pixel),
-	&(env->line_size), &(env->endian));
 	c.x = 0.0;
-	while (c.x < env->width)
+	while (c.x < WIDTH)
 	{
 		c.y = 0.0;
-		while (c.y < env->height)
+		while (c.y < HEIGHT)
 		{
 			c.z = 0.0;
-			while (c.z < env->width)
+			while (c.z < WIDTH)
 			{
 				z.x = 0.005;
 				z.y = 0.005;
@@ -54,26 +74,31 @@ void	fill_bulb(t_env *env)
 				i = -1;
 				while ((z.x * z.x + z.y * z.y + z.z * z.z) < 8 && ++i < 256)
 				{
-					z_new.x = (3 * z.z * z.z - z.x * z.x - z.y * z.y) * z.x * (z.x * z.x - 3 * z.y * z.y) / (z.x * z.x + z.y * z.y) + (c.x - env->width / 2) / env->width;
-					z_new.y = (3 * z.z * z.z - z.x * z.x - z.y * z.y) * z.y * (3 * z.x * z.x - z.y * z.y) / (z.x * z.x + z.y * z.y) + (c.y - env->height / 2) / env->height;
-					z_new.z = z.z * (z.z * z.z - 3 * z.x * z.x - 3 * z.y * z.y) + (c.z - env->width / 2) / env->width;
+					z_new.x = (3 * z.z * z.z - z.x * z.x - z.y * z.y) * z.x * (z.x * z.x - 3 * z.y * z.y) / (z.x * z.x + z.y * z.y) + (c.x - WIDTH / 2) / WIDTH;
+					z_new.y = (3 * z.z * z.z - z.x * z.x - z.y * z.y) * z.y * (3 * z.x * z.x - z.y * z.y) / (z.x * z.x + z.y * z.y) + (c.y - HEIGHT / 2) / HEIGHT;
+					z_new.z = z.z * (z.z * z.z - 3 * z.x * z.x - 3 * z.y * z.y) + (c.z - WIDTH / 2) / WIDTH;
 					z.x = z_new.x;
 					z.y = z_new.y;
 					z.z = z_new.z;
 				}
 				c_flat = get_modified_point(env, c);
-				mlx_pixel_put(env->mlx, env->wind, c_flat.x, c_flat.y, get_fract_color(i));
-				// pos = (int)c_flat.y * env->width + (int)c_flat.x;
-				// if (pos < env->line_size)
-				// {
-				// 	image_data[pos] = get_fract_color(i);
-				// }
+				// mlx_pixel_put(env->mlx, env->wind, c_flat.x, c_flat.y, get_fract_color(i));
+				pos = (int)c_flat.y * WIDTH + (int)c_flat.x;
+				if (pos < (env->line_size * HEIGHT))
+				{
+					if (env->z_buff[pos] == 0 || env->z_buff[pos] < c_flat.z)
+					{
+						env->image_data[pos] = get_fract_color(i);
+						env->z_buff[pos] = c_flat.z;
+					}
+				}
 				c.z += 1.0;
 			}
 			c.y += 1.0;
 		}
 		c.x += 1.0;
 	}
+	clear_z_buffer(env);
 }
 
 void	fill_mandel_image(t_env *env)
@@ -82,27 +107,24 @@ void	fill_mandel_image(t_env *env)
 	int			y;
 	t_complex	z;
 	double		temp;
-	int			*image_data;
 	int			i;
 
-	image_data = (int *)mlx_get_data_addr(env->image, &(env->bits_per_pixel),
-	&(env->line_size), &(env->endian));
 	y = -1;
-	while (++y < env->height)
+	while (++y < HEIGHT)
 	{
 		x = -1;
-		while (++x < env->width)
+		while (++x < WIDTH)
 		{
 			i = -1;
 			z.re = 0;
 			z.im = 0;
 			while ((z.re * z.re + z.im * z.im) < 4 && ++i < 256)
 			{
-				temp = z.re * z.re - z.im * z.im + env->fract.shift.re + (x - env->width / 2) * env->fract.scale;
-				z.im = 2 * z.re * z.im + env->fract.shift.im + (y - env->height / 2) * env->fract.scale;
+				temp = z.re * z.re - z.im * z.im + env->fract.shift.re + (x - WIDTH / 2) * env->fract.scale;
+				z.im = 2 * z.re * z.im + env->fract.shift.im + (y - HEIGHT / 2) * env->fract.scale;
 				z.re = temp;
 			}
-			image_data[y * env->width + x] = get_fract_color(i);
+			env->image_data[y * WIDTH + x] = get_fract_color(i);
 		}
 	}
 }
@@ -113,42 +135,40 @@ void	fill_julia_image(t_env *env)
 	int			y;
 	t_complex	z;
 	double		temp;
-	int			*image_data;
 	int			i;
 
-	image_data = (int *)mlx_get_data_addr(env->image, &(env->bits_per_pixel),
-	&(env->line_size), &(env->endian));
 	y = -1;
-	while (++y < env->height)
+	while (++y < HEIGHT)
 	{
 		x = -1;
-		while (++x < env->width)
+		while (++x < WIDTH)
 		{
 			i = -1;
-			z.re = 1.5 * (x - env->width / 2) / (0.5 * env->fract.scale * env->width);
-			z.im = (y - env->height / 2) / (0.5 * env->fract.scale * env->height);
+			z.re = 1.5 * (x - WIDTH / 2) / (0.5 * env->fract.scale * WIDTH) + env->fract.pivot.re;
+			z.im = (y - HEIGHT / 2) / (0.5 * env->fract.scale * HEIGHT) + env->fract.pivot.im;
 			while ((z.re * z.re + z.im * z.im) < 4 && ++i < 255)
 			{
 				temp = z.re * z.re - z.im * z.im + env->fract.shift.re;
 				z.im = 2 * z.re * z.im + env->fract.shift.im;
 				z.re = temp;
 			}
-			image_data[y * env->width + x] = get_fract_color(i);
+			env->image_data[y * WIDTH + x] = get_fract_color(i);
 		}
 	}
 }
 
 void	draw(t_env *env)
 {
-	env->image != NULL ? mlx_destroy_image(env->mlx, env->image) : 0;
-	env->image = mlx_new_image(env->mlx, env->width, env->height);
+	ft_bzero(env->image_data, WIDTH * HEIGHT);
 	if (env->fract_type == 1)
 		fill_mandel_image(env);
 	else if (env->fract_type == 2)
 		fill_julia_image(env);
 	else if (env->fract_type == 3)
 		fill_bulb(env);
-	// mlx_put_image_to_window (env->mlx, env->wind, env->image, 0, 0);
+	else if (env->fract_type == 4)
+		fill_apoll(env);
+	mlx_put_image_to_window (env->mlx, env->wind, env->image, 0, 0);
 }
 
 t_env	*get_env(int fract)
@@ -157,12 +177,12 @@ t_env	*get_env(int fract)
 
 	env = (t_env *)malloc(sizeof(t_env));
 	env->mlx = mlx_init();
-	env->width = 80;
-	env->height = 60;
 	env->bits_per_pixel = 32;
-	env->line_size = env->width * 4;
+	env->line_size = WIDTH * 4;
 	env->endian = 0;
-	env->wind = mlx_new_window(env->mlx, env->width, env->height, "Fractol");
+	env->wind = mlx_new_window(env->mlx, WIDTH, HEIGHT, "Fractol");
+	env->image = mlx_new_image(env->mlx, WIDTH, HEIGHT);
+	env->image_data = (int *)mlx_get_data_addr(env->image, &env->bits_per_pixel, &env->line_size, &env->endian);
 	if (fract == 1)
 	{
 		env->fract_type = 1;
@@ -176,6 +196,8 @@ t_env	*get_env(int fract)
 		env->fract.scale = 1;
 		env->fract.shift.re = -0.7;
 		env->fract.shift.im = 0.27015;
+		env->fract.pivot.re = 0.0;
+		env->fract.pivot.re = 0.1;
 	}
 	else if (fract == 3)
 	{
@@ -184,7 +206,8 @@ t_env	*get_env(int fract)
 		env->fract.shift.re = 0;
 		env->fract.shift.im = 0;
 	}
-	env->image = NULL;
+	else if (fract == 4)
+		env->fract_type = 4;
 	env->ang_x = 0;
 	env->ang_y = 0;
 	env->ang_z = 0;
@@ -197,7 +220,7 @@ int 	main(int argc, char **argv)
 
 	if (argc == 2)
 	{
-		if (ft_strcmp(argv[1], "1") && ft_strcmp(argv[1], "2") && ft_strcmp(argv[1], "3"))
+		if (ft_strcmp(argv[1], "1") && ft_strcmp(argv[1], "2") && ft_strcmp(argv[1], "3") && ft_strcmp(argv[1], "4"))
 			exit(show_usage_error());
 		env = get_env(ft_atoi(argv[1]));
 		draw(env);
