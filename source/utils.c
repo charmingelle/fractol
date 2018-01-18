@@ -23,7 +23,7 @@ void	draw_line(t_env *env, int x_start, int y_start, int x_end, int y_end)
 	}
 }
 
-void	draw_circle(t_env *env, int c_x, int c_y, double rad)
+void	draw_circle(t_env *env, t_circle circle)
 {
 	int		x;
 	int		y;
@@ -38,8 +38,8 @@ void	draw_circle(t_env *env, int c_x, int c_y, double rad)
 	y_prev = 0;
 	while (phi < 361.0)
 	{
-		x = rad * cos(degree_to_rad(phi)) + c_x;
-		y = rad * sin(degree_to_rad(phi)) + c_y;
+		x = circle.rad * cos(degree_to_rad(phi)) + circle.center.x;
+		y = circle.rad * sin(degree_to_rad(phi)) + circle.center.y;
 		if (x_prev != 0 && y_prev != 0)
 			draw_line(env, x_prev, y_prev, x, y);
 		env->image_data[y * WIDTH + x] = WHITE;

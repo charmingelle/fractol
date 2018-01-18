@@ -35,6 +35,18 @@
 # define VIOLET 0x9400D3
 # define WHITE 0xFFFFFF
 
+typedef struct	s_2point
+{
+	double	x;
+	double	y;
+}				t_2point;
+
+typedef struct	s_circle
+{
+	t_2point	center;
+	double		rad;
+}				t_circle;
+
 typedef struct	s_point
 {
 	double	x;
@@ -89,8 +101,10 @@ int			get_color(int r, int g, int b);
 
 t_point		get_modified_point(t_env *env, t_point point);
 
-void		draw_circle(t_env *env, int c_x, int c_y, double rad);
+void		draw_circle(t_env *env, t_circle circle);
 
 double		degree_to_rad(int degree);
+
+void		fill_apoll(t_env *env);
 
 #endif
