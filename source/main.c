@@ -1,109 +1,5 @@
 #include "header.h"
 
-// Find the Apollonian packing.
-// private Bitmap FindApollonianPacking(int width)
-// {
-//     Bitmap bm = new Bitmap(width, width);
-//     using (Graphics gr = Graphics.FromImage(bm))
-//     {
-//         gr.SmoothingMode = SmoothingMode.AntiAlias;
-//         gr.Clear(Color.LightGreen);
-
-//         // Create the three central tangent circles.
-//         float radius = width * 0.225f;
-//         float x = width / 2;
-//         float gasket_height =
-//             2 * (float)(radius + 2 * radius / Math.Sqrt(3));
-//         float y = (width - gasket_height) / 2 + radius;
-//         Circle circle0 = new Circle(x, y, radius);
-
-//         // Draw a box around the gasket. (For debugging.)
-//         //gr.DrawRectangle(Pens.Orange,
-//         //    x - gasket_height / 2,
-//         //    y - radius,
-//         //    gasket_height,
-//         //    gasket_height);
-
-//         x -= radius;
-//         y += (float)(radius * Math.Sqrt(3));
-//         Circle circle1 = new Circle(x, y, radius);
-//         x += 2 * radius;
-//         Circle circle2 = new Circle(x, y, radius);
-
-//         // Draw the three central circles.
-//         circle0.Draw(gr, Pens.Blue);
-//         circle1.Draw(gr, Pens.Blue);
-//         circle2.Draw(gr, Pens.Blue);
-
-//         // Find the circle that contains them all.
-//         Circle big_circle = FindApollonianCircle(
-//             circle0, circle1, circle2, -1, -1, -1);
-//         big_circle.Draw(gr, Pens.Blue);
-
-//         // Set level to smaller values such as 3
-//         // to see partially drawn gaskets.
-//         int level = 10000;
-
-//         // Find the central circle.
-//         FindCircleOutsideAll(level, gr, circle0, circle1, circle2);
-
-//         // Find circles tangent to the big circle.
-//         FindCircleOutsideTwo(level, gr,
-//             circle0, circle1, big_circle);
-//         FindCircleOutsideTwo(level, gr,
-//             circle1, circle2, big_circle);
-//         FindCircleOutsideTwo(level, gr,
-//             circle2, circle0, big_circle);
-//     }
-//     return bm;
-// }
-
-// // Draw a circle tangent to these three circles
-// // and that is outside all three.
-// private void FindCircleOutsideAll(int level, Graphics gr,
-//     Circle circle0, Circle circle1, Circle circle2)
-// {
-//     Circle new_circle = FindApollonianCircle(
-//         circle0, circle1, circle2, 1, 1, 1);
-//     if (new_circle == null) return;
-//     if (new_circle.Radius < 0.1) return;
-
-//     new_circle.Draw(gr, Pens.Blue);
-
-//     if (--level > 0)
-//     {
-//         FindCircleOutsideAll(level, gr,
-//             circle0, circle1, new_circle);
-//         FindCircleOutsideAll(level, gr,
-//             circle0, circle2, new_circle);
-//         FindCircleOutsideAll(level, gr,
-//             circle1, circle2, new_circle);
-//     }
-// }
-
-// // Draw a circle tangent to these three circles
-// // and that is outside two of them.
-// private void FindCircleOutsideTwo(int level, Graphics gr,
-//     Circle circle0, Circle circle1, Circle circle_contains)
-// {
-//     Circle new_circle = FindApollonianCircle(
-//         circle0, circle1, circle_contains, 1, 1, -1);
-//     if (new_circle == null) return;
-//     if (new_circle.Radius < 0.1) return;
-
-//     new_circle.Draw(gr, Pens.Blue);
-
-//     if (--level > 0)
-//     {
-//         FindCircleOutsideTwo(level, gr,
-//             new_circle, circle0, circle_contains);
-//         FindCircleOutsideTwo(level, gr,
-//             new_circle, circle1, circle_contains);
-//         FindCircleOutsideAll(level, gr,
-//             circle0, circle1, new_circle);
-//     }
-// }
-
 void	clear_z_buffer(t_env *env)
 {
 	int	x;
@@ -142,16 +38,6 @@ int		get_fract_color(int i)
 	return (palette[i % 139]);
 }
 
-// void	fill_apoll(t_env *env)
-// {
-// 	t_circle	circle;
-
-// 	circle.x = WIDTH / 2;
-// 	circle.y = HEIGHT / 2;
-// 	circle.rad = MIN(circle.x, circle.y);
-// 	draw_circle(env, circle);
-// }
-
 void	fill_bulb(t_env *env)
 {
 	t_point		c;
@@ -184,7 +70,6 @@ void	fill_bulb(t_env *env)
 					z.z = z_new.z;
 				}
 				c_flat = get_modified_point(env, c);
-				// mlx_pixel_put(env->mlx, env->wind, c_flat.x, c_flat.y, get_fract_color(i));
 				pos = (int)c_flat.y * WIDTH + (int)c_flat.x;
 				if (pos < (env->line_size * HEIGHT))
 				{
@@ -261,7 +146,7 @@ void	fill_julia_image(t_env *env)
 
 void	draw(t_env *env)
 {
-	ft_bzero(env->image_data, WIDTH * HEIGHT);
+	ft_bzero(env->image_data, WIDTH * HEIGHT * 4);
 	if (env->fract_type == 1)
 		fill_mandel_image(env);
 	else if (env->fract_type == 2)
@@ -270,7 +155,7 @@ void	draw(t_env *env)
 		fill_bulb(env);
 	else if (env->fract_type == 4)
 		fill_apoll(env);
-	mlx_put_image_to_window (env->mlx, env->wind, env->image, 0, 0);
+	mlx_put_image_to_window(env->mlx, env->wind, env->image, 0, 0);
 }
 
 t_env	*get_env(int fract)
@@ -309,7 +194,10 @@ t_env	*get_env(int fract)
 		env->fract.shift.im = 0;
 	}
 	else if (fract == 4)
+	{
 		env->fract_type = 4;
+		env->fract.level = 0;
+	}
 	env->ang_x = 0;
 	env->ang_y = 0;
 	env->ang_z = 0;

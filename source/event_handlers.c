@@ -15,8 +15,10 @@ int	key_handler(int keycode, t_env *env)
 	keycode == ARROW_RIGHT && env->fract_type == 2 ? env->fract.pivot.re -= env->fract.scale / 20 : 0;
 	keycode == ARROW_UP && env->fract_type == 1 ? env->fract.shift.im += env->fract.scale * 10 : 0;
 	keycode == ARROW_UP && env->fract_type == 2 ? env->fract.pivot.im += env->fract.scale / 20 : 0;
+	keycode == ARROW_UP && env->fract_type == 4 ? env->fract.level += 1 : 0;
 	keycode == ARROW_DOWN && env->fract_type == 1 ? env->fract.shift.im -= env->fract.scale * 10 : 0;
 	keycode == ARROW_DOWN && env->fract_type == 2 ? env->fract.pivot.im -= env->fract.scale / 20 : 0;
+	keycode == ARROW_DOWN && env->fract_type == 4 && env->fract.level > 0 ? env->fract.level -= 1 : 0;
 	draw(env);
 	return (0);
 }

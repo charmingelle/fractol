@@ -17,8 +17,11 @@ all: $(NAME)
 $(NAME): $(OBJ) $(HEADERS)
 	make -C libft;
 	make -C minilibx_macos;
-	${CC} -o $(NAME) $(OBJ) ${LIBS} -framework OpenGL -framework AppKit
-	
+	$(CC) -O3 -o $(NAME) $(OBJ) ${LIBS} -framework OpenGL -framework AppKit
+
+%.o: %.c
+	$(CC) -O3 -c $< -o $@
+
 clean:
 	make -C libft clean;
 	make -C minilibx_macos clean;

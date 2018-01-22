@@ -8,8 +8,8 @@
 # include <stdio.h>
 
 # define MIN(X, Y) (((X) < (Y)) ? (X) : (Y))
-# define WIDTH 800
-# define HEIGHT 600
+# define WIDTH 1200
+# define HEIGHT 1000
 # define KEY_DOWN 2
 # define CROSS_CLICK 17
 # define MOUSE_MOVE 6
@@ -65,6 +65,7 @@ typedef struct	s_fract
 	double		scale;
 	t_complex	shift;
 	t_complex	pivot;
+	int			level;
 }				t_fract;
 
 typedef struct	s_env
