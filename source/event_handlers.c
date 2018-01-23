@@ -9,16 +9,16 @@ int	key_handler(int keycode, t_env *env)
 	keycode == S ? (env->ang_x = (env->ang_x + 5) % 360) : 0;
 	keycode == Q ? (env->ang_z = (env->ang_z + 5) % 360) : 0;
 	keycode == E ? (env->ang_z = (env->ang_z - 5) % 360) : 0;
-	keycode == ARROW_LEFT && env->fract_type == 1 ? env->fract.shift.re += env->fract.scale * 10 : 0;
+	keycode == ARROW_LEFT && (env->fract_type == 1 || env->fract_type == 6 || env->fract_type == 7) ? env->fract.shift.re += env->fract.scale * 10 : 0;
 	keycode == ARROW_LEFT && env->fract_type == 2 ? env->fract.pivot.re += env->fract.scale / 20 : 0;
-	keycode == ARROW_RIGHT && env->fract_type == 1 ? env->fract.shift.re -= env->fract.scale * 10 : 0;
+	keycode == ARROW_RIGHT && (env->fract_type == 1 || env->fract_type == 6 || env->fract_type == 7) ? env->fract.shift.re -= env->fract.scale * 10 : 0;
 	keycode == ARROW_RIGHT && env->fract_type == 2 ? env->fract.pivot.re -= env->fract.scale / 20 : 0;
-	keycode == ARROW_UP && env->fract_type == 1 ? env->fract.shift.im += env->fract.scale * 10 : 0;
+	keycode == ARROW_UP && (env->fract_type == 1 || env->fract_type == 6 || env->fract_type == 7) ? env->fract.shift.im += env->fract.scale * 10 : 0;
 	keycode == ARROW_UP && env->fract_type == 2 ? env->fract.pivot.im += env->fract.scale / 20 : 0;
-	keycode == ARROW_UP && env->fract_type == 4 ? env->fract.level += 1 : 0;
-	keycode == ARROW_DOWN && env->fract_type == 1 ? env->fract.shift.im -= env->fract.scale * 10 : 0;
+	keycode == ARROW_UP && (env->fract_type == 4 || env->fract_type == 5 || env->fract_type == 8) ? env->fract.lev += 1 : 0;
+	keycode == ARROW_DOWN && (env->fract_type == 1 || env->fract_type == 6 || env->fract_type == 7) ? env->fract.shift.im -= env->fract.scale * 10 : 0;
 	keycode == ARROW_DOWN && env->fract_type == 2 ? env->fract.pivot.im -= env->fract.scale / 20 : 0;
-	keycode == ARROW_DOWN && env->fract_type == 4 && env->fract.level > 0 ? env->fract.level -= 1 : 0;
+	keycode == ARROW_DOWN && (env->fract_type == 4 || env->fract_type == 5 || env->fract_type == 8) && env->fract.lev > 0 ? env->fract.lev -= 1 : 0;
 	draw(env);
 	return (0);
 }
@@ -30,7 +30,7 @@ double	ft_lerp(double a, double b, double t)
 
 int	mouse_handler(int button, int x, int y, t_env *env)
 {
-	if (button == 4 && env->fract_type == 1)
+	if (button == 4 && (env->fract_type == 1 || env->fract_type == 6 || env->fract_type == 7))
 	{
 		env->fract.scale -= env->fract.scale / SCALE_COEFFICIENT;
 		env->fract.shift.re = ft_lerp(env->fract.shift.re,
@@ -39,7 +39,7 @@ int	mouse_handler(int button, int x, int y, t_env *env)
 			env->fract.shift.im + (y - HEIGHT / 2.0) * env->fract.scale, 0.07);
 		draw(env);
 	}
-	if (button == 5 && env->fract_type == 1)
+	if (button == 5 && (env->fract_type == 1 || env->fract_type == 6 || env->fract_type == 7))
 	{
 		env->fract.scale += env->fract.scale / SCALE_COEFFICIENT;
 		draw(env);

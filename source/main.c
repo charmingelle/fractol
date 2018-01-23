@@ -35,60 +35,39 @@ int		get_fract_color(int i)
 		0xF0FFF0, 0xFFFFF0, 0xF0FFFF, 0xFFFAFA, 0x000000, 0x696969, 0x808080,
 		0xA9A9A9, 0xC0C0C0, 0xD3D3D3, 0xDCDCDC, 0xF5F5F5, 0xFFFFFF
 	};
+
 	return (palette[i % 139]);
 }
 
-void	fill_bulb(t_env *env)
+void	fill_tricorn(t_env *env)
 {
-	t_point		c;
-	t_point		c_flat;
-	t_point		z;
-	t_point		z_new;
+	int			x;
+	int			y;
+	t_complex	z;
+	double		temp;
 	int			i;
-	int			pos;
 
-	c.x = 0.0;
-	while (c.x < WIDTH)
+	y = -1;
+	while (++y < HEIGHT)
 	{
-		c.y = 0.0;
-		while (c.y < HEIGHT)
+		x = -1;
+		while (++x < WIDTH)
 		{
-			c.z = 0.0;
-			while (c.z < WIDTH)
+			i = -1;
+			z.re = 0;
+			z.im = 0;
+			while ((z.re * z.re + z.im * z.im) < 4 && ++i < 256)
 			{
-				z.x = 0.005;
-				z.y = 0.005;
-				z.z = 0.005;
-				i = -1;
-				while ((z.x * z.x + z.y * z.y + z.z * z.z) < 8 && ++i < 256)
-				{
-					z_new.x = (3 * z.z * z.z - z.x * z.x - z.y * z.y) * z.x * (z.x * z.x - 3 * z.y * z.y) / (z.x * z.x + z.y * z.y) + (c.x - WIDTH / 2) / WIDTH;
-					z_new.y = (3 * z.z * z.z - z.x * z.x - z.y * z.y) * z.y * (3 * z.x * z.x - z.y * z.y) / (z.x * z.x + z.y * z.y) + (c.y - HEIGHT / 2) / HEIGHT;
-					z_new.z = z.z * (z.z * z.z - 3 * z.x * z.x - 3 * z.y * z.y) + (c.z - WIDTH / 2) / WIDTH;
-					z.x = z_new.x;
-					z.y = z_new.y;
-					z.z = z_new.z;
-				}
-				c_flat = get_modified_point(env, c);
-				pos = (int)c_flat.y * WIDTH + (int)c_flat.x;
-				if (pos < (env->line_size * HEIGHT))
-				{
-					if (env->z_buff[pos] == 0 || env->z_buff[pos] < c_flat.z)
-					{
-						env->image_data[pos] = get_fract_color(i);
-						env->z_buff[pos] = c_flat.z;
-					}
-				}
-				c.z += 1.0;
+				temp = z.re * z.re - z.im * z.im + env->fract.shift.re + (x - WIDTH / 2) * env->fract.scale;
+				z.im = -2 * z.re * z.im + env->fract.shift.im + (y - HEIGHT / 2) * env->fract.scale;
+				z.re = temp;
 			}
-			c.y += 1.0;
+			env->image_data[y * WIDTH + x] = get_fract_color(i);
 		}
-		c.x += 1.0;
 	}
-	clear_z_buffer(env);
 }
 
-void	fill_mandel_image(t_env *env)
+void	fill_mandel(t_env *env)
 {
 	int			x;
 	int			y;
@@ -116,7 +95,35 @@ void	fill_mandel_image(t_env *env)
 	}
 }
 
-void	fill_julia_image(t_env *env)
+void	fill_ship(t_env *env)
+{
+	int			x;
+	int			y;
+	t_complex	z;
+	double		temp;
+	int			i;
+
+	y = -1;
+	while (++y < HEIGHT)
+	{
+		x = -1;
+		while (++x < WIDTH)
+		{
+			i = -1;
+			z.re = 0;
+			z.im = 0;
+			while ((z.re * z.re + z.im * z.im) < 4 && ++i < 256)
+			{
+				temp = z.re * z.re - z.im * z.im + env->fract.shift.re + (x - WIDTH / 2) * env->fract.scale;
+				z.im = 2 * fabs(z.re * z.im) + env->fract.shift.im + (y - HEIGHT / 2) * env->fract.scale;
+				z.re = temp;
+			}
+			env->image_data[y * WIDTH + x] = get_fract_color(i);
+		}
+	}
+}
+
+void	fill_julia(t_env *env)
 {
 	int			x;
 	int			y;
@@ -148,13 +155,21 @@ void	draw(t_env *env)
 {
 	ft_bzero(env->image_data, WIDTH * HEIGHT * 4);
 	if (env->fract_type == 1)
-		fill_mandel_image(env);
+		fill_mandel(env);
 	else if (env->fract_type == 2)
-		fill_julia_image(env);
+		fill_julia(env);
 	else if (env->fract_type == 3)
 		fill_bulb(env);
 	else if (env->fract_type == 4)
 		fill_apoll(env);
+	else if (env->fract_type == 5)
+		fill_serp(env);
+	else if (env->fract_type == 6)
+		fill_tricorn(env);
+	else if (env->fract_type == 7)
+		fill_ship(env);
+	else if (env->fract_type == 8)
+		fill_cantor(env);
 	mlx_put_image_to_window(env->mlx, env->wind, env->image, 0, 0);
 }
 
@@ -196,7 +211,31 @@ t_env	*get_env(int fract)
 	else if (fract == 4)
 	{
 		env->fract_type = 4;
-		env->fract.level = 0;
+		env->fract.lev = 0;
+	}
+	else if (fract == 5)
+	{
+		env->fract_type = 5;
+		env->fract.lev = 0;
+	}
+	else if (fract == 6)
+	{
+		env->fract_type = 6;
+		env->fract.scale = 0.005;
+		env->fract.shift.re = -0.75;
+		env->fract.shift.im = 0;
+	}
+	else if (fract == 7)
+	{
+		env->fract_type = 7;
+		env->fract.scale = 0.005;
+		env->fract.shift.re = -0.75;
+		env->fract.shift.im = 0;
+	}
+	else if (fract == 8)
+	{
+		env->fract_type = 8;
+		env->fract.lev = 0;
 	}
 	env->ang_x = 0;
 	env->ang_y = 0;
@@ -207,10 +246,12 @@ t_env	*get_env(int fract)
 int 	main(int argc, char **argv)
 {
 	t_env	*env;
+	int		fract_type;
 
 	if (argc == 2)
 	{
-		if (ft_strcmp(argv[1], "1") && ft_strcmp(argv[1], "2") && ft_strcmp(argv[1], "3") && ft_strcmp(argv[1], "4"))
+		fract_type = ft_atoi(argv[1]);
+		if (fract_type < 1 || fract_type > 8)
 			exit(show_usage_error());
 		env = get_env(ft_atoi(argv[1]));
 		draw(env);

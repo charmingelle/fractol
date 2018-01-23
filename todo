@@ -1,2 +1,8 @@
 - Add flags to Makefile
-- Norminate Apoll fract
+- Edit make re command
+- Stop increasing the lev for Apoll, Serp and Cantor when there is nothing to draw
+- Get rid of complex struct
+- Simplify the code
+- Edit usage message
+- Check what happened with Cantor 0 pixel
+- Create one function for Mandel, Ship and Tricorn

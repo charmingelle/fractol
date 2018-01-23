@@ -47,12 +47,27 @@ typedef struct	s_circle
 	double		rad;
 }				t_circle;
 
+typedef struct	s_triag
+{
+	t_2point	a;
+	t_2point	b;
+	t_2point	c;
+}				t_triag;
+
 typedef struct	s_point
 {
 	double	x;
 	double	y;
 	double	z;
 }				t_point;
+
+typedef struct	s_square
+{
+	t_point	a;
+	t_point	b;
+	t_point	c;
+	t_point	d;
+}				t_square;
 
 typedef struct	s_complex
 {
@@ -65,7 +80,7 @@ typedef struct	s_fract
 	double		scale;
 	t_complex	shift;
 	t_complex	pivot;
-	int			level;
+	int			lev;
 }				t_fract;
 
 typedef struct	s_env
@@ -107,5 +122,17 @@ void		draw_circle(t_env *env, t_circle circle);
 double		degree_to_rad(int degree);
 
 void		fill_apoll(t_env *env);
+
+void		fill_bulb(t_env *env);
+
+void		clear_z_buffer(t_env *env);
+
+int			get_fract_color(int i);
+
+void		fill_serp(t_env *env);
+
+double		get_dist(t_2point a, t_2point b);
+
+void		fill_cantor(t_env *env);
 
 #endif
