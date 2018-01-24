@@ -4,7 +4,7 @@ CC		=	gcc
 
 CFLAGS	=	
 
-SOURCE	=	source/apoll.c source/bulb.c source/cantor.c source/color.c source/error.c source/event_handlers.c source/main.c source/mutate.c source/serp.c source/utils.c
+SOURCE	=	source/apoll.c source/bulb.c source/cantor.c source/color.c source/error.c source/event_handlers.c source/main.c source/mutate.c source/serp.c source/tree.c source/utils.c
 
 HEADERS	=	source/header.h
 

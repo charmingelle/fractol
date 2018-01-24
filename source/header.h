@@ -61,13 +61,17 @@ typedef struct	s_point
 	double	z;
 }				t_point;
 
-typedef struct	s_square
+typedef struct	s_cude
 {
-	t_point	a;
-	t_point	b;
-	t_point	c;
-	t_point	d;
-}				t_square;
+	t_point	front_a;
+	t_point	front_b;
+	t_point	front_c;
+	t_point	front_d;
+	t_point	back_a;
+	t_point	back_b;
+	t_point	back_c;
+	t_point	back_d;
+}				t_cube;
 
 typedef struct	s_complex
 {
@@ -81,6 +85,7 @@ typedef struct	s_fract
 	t_complex	shift;
 	t_complex	pivot;
 	int			lev;
+	int			len;
 }				t_fract;
 
 typedef struct	s_env
@@ -98,7 +103,7 @@ typedef struct	s_env
 	int			ang_x;
 	int			ang_y;
 	int			ang_z;
-	int			z_buff[WIDTH * HEIGHT];
+	double		z_buff[WIDTH * HEIGHT];
 }				t_env;
 
 int			show_usage_error();
@@ -134,5 +139,9 @@ void		fill_serp(t_env *env);
 double		get_dist(t_2point a, t_2point b);
 
 void		fill_cantor(t_env *env);
+
+void		draw_seg(t_env *env, t_point a, t_point b, int color);
+
+void		fill_tree(t_env *env);
 
 #endif

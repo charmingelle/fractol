@@ -28,7 +28,7 @@ static t_triag		get_triag(t_2point a, t_2point b, t_2point c)
 	return (triag);
 }
 
-static void		draw_seg(t_env *env, t_2point p1, t_2point p2)
+static void		draw_2seg(t_env *env, t_2point p1, t_2point p2)
 {
 	double	step;
 	double	t;
@@ -48,12 +48,12 @@ static void		draw_seg(t_env *env, t_2point p1, t_2point p2)
 
 static void		draw_triag(t_env *env, t_triag triag)
 {
-	draw_seg(env, triag.a, triag.b);
-	draw_seg(env, triag.a, triag.c);
-	draw_seg(env, triag.b, triag.c);
+	draw_2seg(env, triag.a, triag.b);
+	draw_2seg(env, triag.a, triag.c);
+	draw_2seg(env, triag.b, triag.c);
 }
 
-static void		recur(t_env *env, t_triag triag, int step)
+static void		serp_recur(t_env *env, t_triag triag, int step)
 {
 	t_2point	m1;
 	t_2point	m2;
@@ -65,9 +65,9 @@ static void		recur(t_env *env, t_triag triag, int step)
 	m3 = get_middle(triag.a, triag.c);
 	if (step < env->fract.lev && get_dist(m1, m2) > 1.0)
 	{
-		recur(env, get_triag(triag.a, m1, m3), step + 1);
-		recur(env, get_triag(triag.b, m1, m2), step + 1);
-		recur(env, get_triag(triag.c, m2, m3), step + 1);
+		serp_recur(env, get_triag(triag.a, m1, m3), step + 1);
+		serp_recur(env, get_triag(triag.b, m1, m2), step + 1);
+		serp_recur(env, get_triag(triag.c, m2, m3), step + 1);
 	}
 }
 
@@ -76,8 +76,8 @@ void		fill_serp(t_env *env)
 	int	step;
 
 	step = 0;
-	recur(env,
-		get_triag(get_2point(WIDTH / 2, 0),
+	serp_recur(env, get_triag(get_2point(WIDTH / 2, 0),
 		get_2point(WIDTH / 2 - HEIGHT / sqrt(3), HEIGHT - 1),
-		get_2point(WIDTH / 2 + HEIGHT / sqrt(3), HEIGHT - 1)), step);
+		get_2point(WIDTH / 2 + HEIGHT / sqrt(3), HEIGHT - 1)),
+		step);
 }

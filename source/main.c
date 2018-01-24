@@ -154,6 +154,7 @@ void	fill_julia(t_env *env)
 void	draw(t_env *env)
 {
 	ft_bzero(env->image_data, WIDTH * HEIGHT * 4);
+	ft_bzero(env->z_buff, WIDTH * HEIGHT * 8);
 	if (env->fract_type == 1)
 		fill_mandel(env);
 	else if (env->fract_type == 2)
@@ -170,6 +171,8 @@ void	draw(t_env *env)
 		fill_ship(env);
 	else if (env->fract_type == 8)
 		fill_cantor(env);
+	else if (env->fract_type == 9)
+		fill_tree(env);
 	mlx_put_image_to_window(env->mlx, env->wind, env->image, 0, 0);
 }
 
@@ -236,6 +239,12 @@ t_env	*get_env(int fract)
 	{
 		env->fract_type = 8;
 		env->fract.lev = 0;
+		env->fract.len = MIN(WIDTH, HEIGHT) / 2;
+	}
+	else if (fract == 9)
+	{
+		env->fract_type = 9;
+		env->fract.len = MIN(WIDTH, HEIGHT) / 3;
 	}
 	env->ang_x = 0;
 	env->ang_y = 0;
@@ -251,7 +260,7 @@ int 	main(int argc, char **argv)
 	if (argc == 2)
 	{
 		fract_type = ft_atoi(argv[1]);
-		if (fract_type < 1 || fract_type > 8)
+		if (fract_type < 1 || fract_type > 9)
 			exit(show_usage_error());
 		env = get_env(ft_atoi(argv[1]));
 		draw(env);
