@@ -5,46 +5,32 @@ double	degree_to_rad(int degree)
 	return (((double)degree * M_PI) / 180.0);
 }
 
-void	draw_line(t_env *env, int x_start, int y_start, int x_end, int y_end)
+double		get_2dist(t_2point a, t_2point b)
 {
-	double	t;
-	double	step;
-	int		x;
-	int		y;
-
-	step = 1 / sqrt(pow(x_start - x_end, 2) + pow(y_start - y_end, 2));
-	t = 0.0;
-	while (t <= 1.0)
-	{
-		x = (x_end - x_start) * t + x_start;
-		y = (y_end - y_start) * t + y_start;
-		env->image_data[y * WIDTH + x] = WHITE;
-		t += step;
-	}
+	return (sqrt((a.x - b.x) * (a.x - b.x) + (a.y - b.y) * (a.y - b.y)));
 }
 
-void	draw_circle(t_env *env, t_circle circle)
+double		get_dist(t_point a, t_point b)
 {
-	int		x;
-	int		y;
-	int		x_prev;
-	int		y_prev;
-	double	phi;
-	double	step;
+	return (sqrt((a.x - b.x) * (a.x - b.x) + (a.y - b.y) * (a.y - b.y) + (a.z - b.z) * (a.z - b.z)));
+}
 
-	step = 0.01;
-	phi = 0.0;
-	x_prev = 0;
-	y_prev = 0;
-	while (phi < 361.0)
+void		sort(t_point *array)
+{
+	int		i;
+	int		j;
+	t_point	tmp;
+
+	i = -1;
+	while (++i < 3)
 	{
-		x = circle.rad * cos(degree_to_rad(phi)) + circle.center.x;
-		y = circle.rad * sin(degree_to_rad(phi)) + circle.center.y;
-		if (x_prev != 0 && y_prev != 0)
-			draw_line(env, x_prev, y_prev, x, y);
-		env->image_data[y * WIDTH + x] = WHITE;
-		phi += step;
-		x_prev = x;
-		y_prev = y;
+		j = i - 1;
+		while (++j < 3)
+			if (array[j].y > array[i].y)
+			{
+				tmp = array[j];
+				array[j] = array[i];
+				array[i] = tmp;
+			}
 	}
 }

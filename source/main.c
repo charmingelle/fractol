@@ -176,12 +176,12 @@ void	draw(t_env *env)
 	mlx_put_image_to_window(env->mlx, env->wind, env->image, 0, 0);
 }
 
-t_env	*get_env(int fract)
+t_env	*get_env(void *mlx, int fract)
 {
 	t_env	*env;
 
 	env = (t_env *)malloc(sizeof(t_env));
-	env->mlx = mlx_init();
+	env->mlx = mlx;
 	env->bits_per_pixel = 32;
 	env->line_size = WIDTH * 4;
 	env->endian = 0;
@@ -220,6 +220,7 @@ t_env	*get_env(int fract)
 	{
 		env->fract_type = 5;
 		env->fract.lev = 0;
+		env->fract.len = MIN(WIDTH, HEIGHT) / 1.3;
 	}
 	else if (fract == 6)
 	{
@@ -244,7 +245,9 @@ t_env	*get_env(int fract)
 	else if (fract == 9)
 	{
 		env->fract_type = 9;
-		env->fract.len = MIN(WIDTH, HEIGHT) / 3;
+		env->fract.lev = 0;
+		env->fract.tilte = 0;
+		env->fract.closeness = 45;
 	}
 	env->ang_x = 0;
 	env->ang_y = 0;
@@ -252,23 +255,42 @@ t_env	*get_env(int fract)
 	return (env);
 }
 
-int 	main(int argc, char **argv)
+void	show_fract_wind(void *mlx, char *arg)
 {
 	t_env	*env;
-	int		fract_type;
 
-	if (argc == 2)
-	{
-		fract_type = ft_atoi(argv[1]);
-		if (fract_type < 1 || fract_type > 9)
+	env = get_env(mlx, ft_atoi(arg));
+	draw(env);
+	mlx_mouse_hook(env->wind, mouse_handler, env);
+	mlx_hook(env->wind, KEY_DOWN, 0, key_handler, env);
+	mlx_hook(env->wind, CROSS_CLICK, 0, (int (*)())&exit, env);
+	mlx_hook(env->wind, CROSS_CLICK, 0, mlx_destroy_window, env);
+	mlx_hook(env->wind, MOUSE_MOVE, 0, mouse_move_handler, env);
+}
+
+void	validate_fract(int argc, char **argv)
+{
+	int	i;
+
+	i = 0;
+	while (++i < argc)
+		if (ft_atoi(argv[i]) < 1 || ft_atoi(argv[i]) > 9)
 			exit(show_usage_error());
-		env = get_env(ft_atoi(argv[1]));
-		draw(env);
-		mlx_mouse_hook(env->wind, mouse_handler, env);
-		mlx_hook(env->wind, KEY_DOWN, 0, key_handler, env);
-		mlx_hook(env->wind, CROSS_CLICK, 0, (int (*)())&exit, env);
-		mlx_hook(env->wind, MOUSE_MOVE, 0, mouse_move_handler, env);
-		mlx_loop(env->mlx);
+}
+
+int 	main(int argc, char **argv)
+{
+	void	*mlx;
+	int		i;
+
+	if (argc > 1)
+	{
+		validate_fract(argc, argv);
+		mlx = mlx_init();
+		i = 0;
+		while (++i < argc)
+			show_fract_wind(mlx, argv[i]);
+		mlx_loop(mlx);
 	}
 	else
 		exit(show_usage_error());

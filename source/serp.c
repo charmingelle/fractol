@@ -1,83 +1,65 @@
 #include "header.h"
 
-static t_2point	get_2point(double x, double y)
+static t_point	get_middle(t_point a, t_point b)
 {
-	t_2point	point;
-
-	point.x = x;
-	point.y = y;
-	return (point);
-}
-
-static t_2point	get_middle(t_2point a, t_2point b)
-{
-	t_2point	middle;
+	t_point	middle;
 
 	middle.x = (a.x + b.x) / 2;
 	middle.y = (a.y + b.y) / 2;
+	middle.z = (a.z + b.z) / 2;
 	return (middle);
 }
 
-static t_triag		get_triag(t_2point a, t_2point b, t_2point c)
+static t_pyr	get_pyr(t_point top, t_point a, t_point b, t_point c)
 {
-	t_triag	triag;
+	t_pyr	pyr;
 
-	triag.a = a;
-	triag.b = b;
-	triag.c = c;
-	return (triag);
+	pyr.top = top;
+	pyr.a = a;
+	pyr.b = b;
+	pyr.c = c;
+	return (pyr);
 }
 
-static void		draw_2seg(t_env *env, t_2point p1, t_2point p2)
+static void		draw_pyr(t_env *env, t_pyr pyr)
 {
-	double	step;
-	double	t;
-	int		x;
-	int		y;
+	draw_triang(env, (t_point[3]){pyr.top, pyr.a, pyr.b}, GREEN);
+	draw_triang(env, (t_point[3]){pyr.top, pyr.b, pyr.c}, WHITE);
+	draw_triang(env, (t_point[3]){pyr.top, pyr.c, pyr.a}, BLUE);
+	draw_triang(env, (t_point[3]){pyr.a, pyr.b, pyr.c}, RED);
+}
 
-	step = 0.5 / sqrt(pow(p1.x - p2.x, 2) + pow(p1.y - p2.y, 2));
-	t = 0;
-	while (t < 1)
+static void		serp_recur(t_env *env, t_pyr pyr, int lev)
+{
+	t_point	mids[6];
+
+	mids[0] = get_middle(pyr.top, pyr.a);
+	mids[1] = get_middle(pyr.top, pyr.b);
+	mids[2] = get_middle(pyr.top, pyr.c);
+	mids[3] = get_middle(pyr.a, pyr.b);
+	mids[4] = get_middle(pyr.b, pyr.c);
+	mids[5] = get_middle(pyr.c, pyr.a);
+	if (lev < env->fract.lev)
 	{
-		x = (p2.x - p1.x) * t + p1.x;
-		y = (p2.y - p1.y) * t + p1.y;
-		env->image_data[y * WIDTH + x] = WHITE;
-		t += step;
+		serp_recur(env, get_pyr(pyr.top, mids[0], mids[1], mids[2]), lev + 1);
+		serp_recur(env, get_pyr(mids[0], pyr.a, mids[3], mids[5]), lev + 1);
+		serp_recur(env, get_pyr(mids[1], mids[3], pyr.b, mids[4]), lev + 1);
+		serp_recur(env, get_pyr(mids[2], mids[5], mids[4], pyr.c), lev + 1);
 	}
+	else
+		draw_pyr(env, pyr);
 }
 
-static void		draw_triag(t_env *env, t_triag triag)
+void			fill_serp(t_env *env)
 {
-	draw_2seg(env, triag.a, triag.b);
-	draw_2seg(env, triag.a, triag.c);
-	draw_2seg(env, triag.b, triag.c);
-}
+	int		step;
+	double	part;
 
-static void		serp_recur(t_env *env, t_triag triag, int step)
-{
-	t_2point	m1;
-	t_2point	m2;
-	t_2point	m3;
-
-	draw_triag(env, triag);
-	m1 = get_middle(triag.a, triag.b);
-	m2 = get_middle(triag.b, triag.c);
-	m3 = get_middle(triag.a, triag.c);
-	if (step < env->fract.lev && get_dist(m1, m2) > 1.0)
-	{
-		serp_recur(env, get_triag(triag.a, m1, m3), step + 1);
-		serp_recur(env, get_triag(triag.b, m1, m2), step + 1);
-		serp_recur(env, get_triag(triag.c, m2, m3), step + 1);
-	}
-}
-
-void		fill_serp(t_env *env)
-{
-	int	step;
-
+	part = sqrt(3) * env->fract.len / 6;
 	step = 0;
-	serp_recur(env, get_triag(get_2point(WIDTH / 2, 0),
-		get_2point(WIDTH / 2 - HEIGHT / sqrt(3), HEIGHT - 1),
-		get_2point(WIDTH / 2 + HEIGHT / sqrt(3), HEIGHT - 1)),
+	serp_recur(env, get_pyr((t_point){0, -2 * part, 0},
+		(t_point){-env->fract.len / 2, part, part},
+		(t_point){env->fract.len / 2, part, part},
+		(t_point){0, part, -2 * part}),
 		step);
 }

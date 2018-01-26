@@ -34,6 +34,7 @@
 # define INDIGO 0x4B0082
 # define VIOLET 0x9400D3
 # define WHITE 0xFFFFFF
+# define BROWN 0x8B4513
 
 typedef struct	s_2point
 {
@@ -61,6 +62,14 @@ typedef struct	s_point
 	double	z;
 }				t_point;
 
+typedef struct	s_pyr
+{
+	t_point		top;
+	t_point		a;
+	t_point		b;
+	t_point		c;
+}				t_pyr;
+
 typedef struct	s_cude
 {
 	t_point	front_a;
@@ -86,6 +95,8 @@ typedef struct	s_fract
 	t_complex	pivot;
 	int			lev;
 	int			len;
+	int			tilte;
+	int			closeness;
 }				t_fract;
 
 typedef struct	s_env
@@ -99,12 +110,17 @@ typedef struct	s_env
 	t_fract		fract;
 	void		*image;
 	int			*image_data;
-	int			palette[7];
 	int			ang_x;
 	int			ang_y;
 	int			ang_z;
 	double		z_buff[WIDTH * HEIGHT];
 }				t_env;
+
+typedef struct	s_main_wind_env
+{
+	void	*mlx;
+	void	*wind;
+}				t_main_wind_env;
 
 int			show_usage_error();
 
@@ -122,7 +138,7 @@ int			get_color(int r, int g, int b);
 
 t_point		get_modified_point(t_env *env, t_point point);
 
-void		draw_circle(t_env *env, t_circle circle);
+void		draw_circle(t_env *env, t_circle circle, int lev);
 
 double		degree_to_rad(int degree);
 
@@ -136,12 +152,22 @@ int			get_fract_color(int i);
 
 void		fill_serp(t_env *env);
 
-double		get_dist(t_2point a, t_2point b);
+double		get_2dist(t_2point a, t_2point b);
+
+double		get_dist(t_point a, t_point b);
 
 void		fill_cantor(t_env *env);
 
+void		fill_tree(t_env *env);
+
 void		draw_seg(t_env *env, t_point a, t_point b, int color);
 
-void		fill_tree(t_env *env);
+void		draw_parallelogram(t_env *env, t_point a[2], t_point b[2], int color);
+
+void		draw_cube(t_env *env, t_cube cube);
+
+void		sort(t_point *array);
+
+void		draw_triang(t_env *env, t_point p[3], int color);
 
 #endif

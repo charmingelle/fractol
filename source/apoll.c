@@ -1,10 +1,5 @@
 #include "header.h"
 
-double		get_dist(t_2point a, t_2point b)
-{
-	return (sqrt(pow(a.x - b.x, 2) + pow(a.y - b.y, 2)));
-}
-
 t_circle	get_circle(double center_x, double center_y, double rad)
 {
 	t_circle	circle;
@@ -37,7 +32,7 @@ t_2point	get_far_center(t_circle c0, t_circle c1, t_circle container,
 		/ d - h * (c1.center.y - c0.center.y) / d;
 	second.y = c0.center.y + a * (c1.center.y - c0.center.y)
 		/ d + h * (c1.center.x - c0.center.x) / d;
-	if (get_dist(first, container.center) > get_dist(second, container.center))
+	if (get_2dist(first, container.center) > get_2dist(second, container.center))
 		return (first);
 	return (second);
 }
@@ -64,7 +59,7 @@ t_2point	get_close_center(t_circle c0, t_circle c1, t_circle container,
 		/ d - h * (c1.center.y - c0.center.y) / d;
 	second.y = c0.center.y + a * (c1.center.y - c0.center.y)
 		/ d + h * (c1.center.x - c0.center.x) / d;
-	if (get_dist(first, container.center) < get_dist(second, container.center))
+	if (get_2dist(first, container.center) < get_2dist(second, container.center))
 		return (first);
 	return (second);
 }
@@ -76,9 +71,9 @@ t_2point	get_outer_center(t_env *env, t_2point a, t_2point b, t_2point c)
 	double		s2;
 	double		s3;
 
-	s1 = get_dist(a, b);
-	s2 = get_dist(b, c);
-	s3 = get_dist(c, a);
+	s1 = get_2dist(a, b);
+	s2 = get_2dist(b, c);
+	s3 = get_2dist(c, a);
 	center.x = (s1 * a.x + s2 * b.x + s3 * c.x) / (s1 + s2 + s3);
 	center.y = (s1 * a.y + s2 * b.y + s3 * c.y) / (s1 + s2 + s3);
 	return (center);
@@ -121,7 +116,7 @@ void	get_circle_outside_all(t_env *env, int lev, t_circle c[3])
 	new = get_apoll_all(c[0], c[1], c[2]);
 	if (new.rad <= 1)
 		return ;
-	draw_circle(env, new);
+	draw_circle(env, new, lev);
 	if (--lev > 1)
 	{
 		get_circle_outside_all(env, lev, (t_circle[3]){c[0], c[1], new});
@@ -152,7 +147,7 @@ void	get_circle_outside_two(t_env *env, int lev, t_circle c[3])
 	new = get_apoll_two(c[0], c[1], c[2]);
 	if (new.rad <= 1)
 		return ;
-	draw_circle(env, new);
+	draw_circle(env, new, lev);
 	if (--lev > 1)
 	{
 		get_circle_outside_two(env, lev, (t_circle[3]){new, c[0], c[2]});
@@ -174,12 +169,12 @@ void		fill_apoll(t_env *env)
 	c1 = get_circle(WIDTH / 2 - rad, rad + rad * sqrt(3), rad);
 	c2 = get_circle(WIDTH / 2 + rad, rad + rad * sqrt(3), rad);
 	big = get_outer_circle(env, c0, c1, c2);
-	draw_circle(env, big);
+	draw_circle(env, big, 0);
 	if (env->fract.lev > 0)
 	{
-		draw_circle(env, c0);
-		draw_circle(env, c1);
-		draw_circle(env, c2);
+		draw_circle(env, c0, 1);
+		draw_circle(env, c1, 1);
+		draw_circle(env, c2, 1);
 	}
 	if (env->fract.lev > 1)
 	{
