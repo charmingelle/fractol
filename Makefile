@@ -4,28 +4,35 @@ CC		=	gcc
 
 CFLAGS	=	
 
-SOURCE	=	source/apoll.c source/bulb.c source/cantor.c source/color.c source/draw.c source/error.c source/event_handlers.c source/main.c source/mutate.c source/serp.c source/tree.c source/utils.c
+SRCDIR	=	source
 
-HEADERS	=	source/header.h
+INCDIR	=	includes
+
+SRC		=	apoll.c bulb.c cantor.c color.c draw.c error.c event_handlers.c main.c mutate.c serp.c tree.c utils.c
+
+HEADERS	=	$(addprefix $(INCDIR)/, header.h)
 
 LIBS	=	libft/libft.a minilibx_macos/libmlx.a
 
-OBJ		=	$(SOURCE:.c=.o)
+OBJDIR	=	obj
 
-all: $(NAME)
+OBJ		=	$(addprefix $(OBJDIR)/, $(SRC:.c=.o))
 
-$(NAME): $(OBJ) $(HEADERS)
-	make -C libft;
-	make -C minilibx_macos;
-	$(CC) -O3 -o $(NAME) $(OBJ) ${LIBS} -framework OpenGL -framework AppKit
+all: $(OBJDIR) $(NAME)
 
-%.o: %.c
-	$(CC) -O3 -c $< -o $@
+$(NAME): $(OBJ) $(LIBS)
+	$(CC) -O3 -o $(NAME) $(OBJ) ${LIBS} -framework OpenGL -framework AppKit -I $(INCDIR)
+
+$(OBJ): $(OBJDIR)/%.o : $(SRCDIR)/%.c $(HEADERS)
+	$(CC) $(CFLAGS) -c $< -o $@ -I $(INCDIR)
+
+$(OBJDIR):
+	mkdir -p $(OBJDIR)
 
 clean:
 	make -C libft clean;
 	make -C minilibx_macos clean;
-	rm -f $(OBJ);
+	rm -rf $(OBJDIR);
 
 fclean: clean
 	make -C libft fclean;
