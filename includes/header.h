@@ -162,6 +162,8 @@ void		fill_tree(t_env *env);
 
 void		draw_seg(t_env *env, t_point a, t_point b, int color);
 
+void		draw_2seg(t_env *env, t_2point start, t_2point end, int lev);
+
 void		draw_parallelogram(t_env *env, t_point a[2], t_point b[2], int color);
 
 void		draw_cube(t_env *env, t_cube cube);

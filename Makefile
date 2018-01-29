@@ -20,7 +20,9 @@ OBJ		=	$(addprefix $(OBJDIR)/, $(SRC:.c=.o))
 
 all: $(OBJDIR) $(NAME)
 
-$(NAME): $(OBJ) $(LIBS)
+$(NAME): $(OBJ)
+	make -C libft
+	make -C minilibx_macos
 	$(CC) -O3 -o $(NAME) $(OBJ) ${LIBS} -framework OpenGL -framework AppKit -I $(INCDIR)
 
 $(OBJ): $(OBJDIR)/%.o : $(SRCDIR)/%.c $(HEADERS)

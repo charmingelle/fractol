@@ -1,4 +1,4 @@
-#include "header.h"
+#include "../includes/header.h"
 
 static t_point	get_middle(t_point a, t_point b)
 {

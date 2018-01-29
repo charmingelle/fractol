@@ -1,4 +1,4 @@
-#include "header.h"
+#include "../includes/header.h"
 
 t_circle	get_circle(double center_x, double center_y, double rad)
 {

@@ -1,4 +1,4 @@
-#include "header.h"
+#include "../includes/header.h"
 
 inline static t_point	get_moved_point(t_point point, double x_shift,
 										double y_shift, double z_shift)

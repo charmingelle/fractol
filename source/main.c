@@ -1,4 +1,4 @@
-#include "header.h"
+#include "../includes/header.h"
 
 void	clear_z_buffer(t_env *env)
 {

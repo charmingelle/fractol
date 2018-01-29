@@ -1,4 +1,4 @@
-#include "header.h"
+#include "../includes/header.h"
 
 void	fill_bulb(t_env *env)
 {

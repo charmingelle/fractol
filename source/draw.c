@@ -1,4 +1,4 @@
-#include "header.h"
+#include "../includes/header.h"
 
 void	draw_seg(t_env *env, t_point a, t_point b,
 								int color)
@@ -67,48 +67,45 @@ void	draw_cube(t_env *env, t_cube cube)
 							(t_point[2]){cube.back_d, cube.back_a}, 0xF26105);
 }
 
-
-static void	draw_line(t_env *env, int x_start, int y_start, int x_end, int y_end, int lev)
+void	draw_2seg(t_env *env, t_2point start, t_2point end, int color)
 {
 	double	t;
 	double	step;
 	int		x;
 	int		y;
 
-	step = 1 / sqrt(pow(x_start - x_end, 2) + pow(y_start - y_end, 2));
+	step = 1 / sqrt(pow(start.x - end.x, 2) + pow(start.y - end.y, 2));
 	t = 0.0;
 	while (t <= 1.0)
 	{
-		x = (x_end - x_start) * t + x_start;
-		y = (y_end - y_start) * t + y_start;
-		env->image_data[y * WIDTH + x] = get_mid_color(GREEN, BROWN, env->fract.lev + 1, lev);
+		x = (end.x - start.x) * t + start.x;
+		y = (end.y - start.y) * t + start.y;
+		env->image_data[y * WIDTH + x] = color;
 		t += step;
 	}
 }
 
 void	draw_circle(t_env *env, t_circle circle, int lev)
 {
-	int		x;
-	int		y;
-	int		x_prev;
-	int		y_prev;
-	double	phi;
-	double	step;
+	t_2point	cur;
+	t_2point	prev;
+	double		phi;
+	double		step;
 
 	step = 0.01;
 	phi = 0.0;
-	x_prev = 0;
-	y_prev = 0;
+	prev.x = 0;
+	prev.y = 0;
 	while (phi < 361.0)
 	{
-		x = circle.rad * cos(degree_to_rad(phi)) + circle.center.x;
-		y = circle.rad * sin(degree_to_rad(phi)) + circle.center.y;
-		if (x_prev != 0 && y_prev != 0)
-			draw_line(env, x_prev, y_prev, x, y, lev);
-		env->image_data[y * WIDTH + x] = get_mid_color(GREEN, BROWN, env->fract.lev + 1, lev);
+		cur.x = circle.rad * cos(degree_to_rad(phi)) + circle.center.x;
+		cur.y = circle.rad * sin(degree_to_rad(phi)) + circle.center.y;
+		if (prev.x != 0 && prev.y != 0)
+			draw_2seg(env, prev, cur, WHITE);
+		env->image_data[(int)cur.y * WIDTH + (int)cur.x] = WHITE;
 		phi += step;
-		x_prev = x;
-		y_prev = y;
+		prev.x = cur.x;
+		prev.y = cur.y;
 	}
 }
 
