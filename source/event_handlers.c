@@ -26,7 +26,9 @@ void	arrow_up_handler(t_env *env)
 		env->fract.shift.y += env->fract.scale * 10;
 	else if (env->fract.number == JULIA)
 		env->fract.pivot.y += env->fract.scale / 20;
-	else if ((env->fract.number == APOLL || env->fract.number == SERP || env->fract.number == CANTOR) && env->fract.lev < 7)
+	else if (env->fract.number == APOLL && env->fract.lev < 7)
+		env->fract.lev += 1;
+	else if ((env->fract.number == SERP || env->fract.number == CANTOR) && env->fract.lev < 5)
 		env->fract.lev += 1;
 	else if (env->fract.number == TREE)
 		env->fract.closeness -= 1;

@@ -18,7 +18,7 @@ void	draw_seg(t_env *env, t_point a, t_point b,
 		mid.y = (b.y - a.y) * t + a.y;
 		mid.z = (b.z - a.z) * t + a.z;
 		pos = (int)mid.y * WIDTH + (int)mid.x;
-		if ((mid.x > 0 && mid.x < WIDTH && mid.y > 0 && mid.y < HEIGHT)
+		if ((mid.x >= 0 && mid.x < WIDTH && mid.y >= 0 && mid.y < HEIGHT)
 			&& (env->z_buff[pos] == 0 || env->z_buff[pos] < mid.z))
 		{
 			env->z_buff[pos] = mid.z;
@@ -85,7 +85,7 @@ void	draw_2seg(t_env *env, t_2point start, t_2point end, int color)
 	}
 }
 
-void	draw_circle(t_env *env, t_circle circle, int lev)
+void	draw_circle(t_env *env, t_circle circle, int lev, int color)
 {
 	t_2point	cur;
 	t_2point	prev;
@@ -101,8 +101,8 @@ void	draw_circle(t_env *env, t_circle circle, int lev)
 		cur.x = circle.rad * cos(degree_to_rad(phi)) + circle.center.x;
 		cur.y = circle.rad * sin(degree_to_rad(phi)) + circle.center.y;
 		if (prev.x != 0 && prev.y != 0)
-			draw_2seg(env, prev, cur, WHITE);
-		env->image_data[(int)cur.y * WIDTH + (int)cur.x] = WHITE;
+			draw_2seg(env, prev, cur, color);
+		env->image_data[(int)cur.y * WIDTH + (int)cur.x] = color;
 		phi += step;
 		prev.x = cur.x;
 		prev.y = cur.y;

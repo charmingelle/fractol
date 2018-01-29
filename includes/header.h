@@ -30,8 +30,8 @@
 # define ORANGE 0xFF7F00
 # define YELLOW 0xFFFF00
 # define GREEN 0x00FF00
-# define BLUE 0x0000FF
-# define INDIGO 0x4B0082
+# define BLUE 0x38EEFF
+# define DARK_BLUE 0x0000FF
 # define VIOLET 0x9400D3
 # define WHITE 0xFFFFFF
 # define BROWN 0x8B4513
@@ -138,6 +138,8 @@ void		clear_z_buffer(t_env *env);
 
 int			get_palette_color(int i);
 
+int			get_geom_palette_color(int i);
+
 double		get_2dist(t_2point a, t_2point b);
 
 double		get_dist(t_point a, t_point b);
@@ -152,7 +154,7 @@ void		draw_parallelogram(t_env *env, t_point a[2], t_point b[2], int color);
 
 void		draw_cube(t_env *env, t_cube cube);
 
-void		draw_circle(t_env *env, t_circle circle, int lev);
+void		draw_circle(t_env *env, t_circle circle, int lev, int color);
 
 void		draw(t_env *env);
 

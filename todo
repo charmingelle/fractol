@@ -1,11 +1,11 @@
 - Add flags to Makefile
 - Edit make re command
 - Stop increasing the lev for Apoll, Serp and Cantor when there is nothing to draw
-- Get rid of complex struct
++ Get rid of complex struct
 - Simplify the code
-- Edit usage message
-- Check what happened with Cantor 0 pixel
++ Edit usage message
++ Check what happened with Cantor 0 pixel
 - Create one function for Mandel, Ship and Tricorn
-- Check why Apoll fract level is level + 1
-- Set nice color for Apoll fract
++ Check why Apoll fract level is level + 1
++ Set nice color for Apoll fract
 - Double check Makefile
