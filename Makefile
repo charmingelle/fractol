@@ -8,7 +8,7 @@ SRCDIR	=	source
 
 INCDIR	=	includes
 
-SRC		=	apoll.c cantor.c color.c draw.c error.c event_handlers.c main.c mutate.c serp.c tree.c utils.c
+SRC		=	apoll.c cantor.c color.c draw.c error.c event_handlers.c fract_data.c main.c mand_jul_ship_tri.c mutate.c serp.c tree.c utils.c
 
 HEADERS	=	$(addprefix $(INCDIR)/, header.h)
 

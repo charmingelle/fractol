@@ -30,8 +30,3 @@ int			get_mid_color(int start, int end, double to_pass, double passed)
 	b = get_b(start) + (rgb_steps[2] * passed);
 	return (r * 0x10000 + g * 0x100 + b);
 }
-
-int			get_color(int r, int g, int b)
-{
-	return (r * 0x10000 + g * 0x100 + b);
-}

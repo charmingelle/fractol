@@ -99,6 +99,7 @@ typedef struct	s_complex
 
 typedef struct	s_fract
 {
+	int			number;
 	double		scale;
 	t_complex	shift;
 	t_complex	pivot;
@@ -115,7 +116,6 @@ typedef struct	s_env
 	int			bits_per_pixel;
 	int			line_size;
 	int			endian;
-	int			fract_type;
 	t_fract		fract;
 	void		*image;
 	int			*image_data;
@@ -125,12 +125,6 @@ typedef struct	s_env
 	double		z_buff[WIDTH * HEIGHT];
 }				t_env;
 
-typedef struct	s_main_wind_env
-{
-	void	*mlx;
-	void	*wind;
-}				t_main_wind_env;
-
 int			show_usage_error();
 
 int			key_handler(int keycode, t_env *env);
@@ -139,44 +133,68 @@ int			mouse_handler(int button, int x, int y, t_env *env);
 
 int			mouse_move_handler(int x, int y, t_env *env);
 
-void		draw(t_env *env);
-
 int			get_mid_color(int start, int end, double to_pass, double passed);
-
-int			get_color(int r, int g, int b);
 
 t_point		get_modified_point(t_env *env, t_point point);
 
-void		draw_circle(t_env *env, t_circle circle, int lev);
-
 double		degree_to_rad(int degree);
-
-void		fill_apoll(t_env *env);
 
 void		clear_z_buffer(t_env *env);
 
-int			get_fract_color(int i);
-
-void		fill_serp(t_env *env);
+int			get_palette_color(int i);
 
 double		get_2dist(t_2point a, t_2point b);
 
 double		get_dist(t_point a, t_point b);
 
-void		fill_cantor(t_env *env);
-
-void		fill_tree(t_env *env);
+void		draw_2seg(t_env *env, t_2point start, t_2point end, int lev);
 
 void		draw_seg(t_env *env, t_point a, t_point b, int color);
 
-void		draw_2seg(t_env *env, t_2point start, t_2point end, int lev);
+void		draw_triang(t_env *env, t_point p[3], int color);
 
 void		draw_parallelogram(t_env *env, t_point a[2], t_point b[2], int color);
 
 void		draw_cube(t_env *env, t_cube cube);
 
-void		sort(t_point *array);
+void		draw_circle(t_env *env, t_circle circle, int lev);
 
-void		draw_triang(t_env *env, t_point p[3], int color);
+void		draw(t_env *env);
+
+t_fract		get_mandel();
+
+t_fract		get_julia();
+
+t_fract		get_ship();
+
+t_fract		get_tricorn();
+
+t_fract		get_apoll();
+
+t_fract		get_tree();
+
+t_fract		get_cantor();
+
+t_fract		get_serp();
+
+void		fill_mandel(t_env *env);
+
+void		fill_julia(t_env *env);
+
+void		fill_ship(t_env *env);
+
+void		fill_tricorn(t_env *env);
+
+void		fill_apoll(t_env *env);
+
+void		fill_tree(t_env *env);
+
+void		fill_cantor(t_env *env);
+
+void		fill_serp(t_env *env);
+
+t_fract		get_fract_data(int number);
+
+void		fill_fract_image(t_env *env);
 
 #endif
