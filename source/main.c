@@ -6,7 +6,7 @@ void	draw(t_env *env)
 	ft_bzero(env->z_buff, WIDTH * HEIGHT * 8);
 	fill_fract_image(env);
 	mlx_put_image_to_window(env->mlx, env->wind, env->image, 0, 0);
-	mlx_string_put(env->mlx, env->wind, 10, 10, WHITE, env->fract.man);
+	mlx_string_put(env->mlx, env->wind, 10, 10, 0xFFFFFF, env->fract.man);
 }
 
 t_env	*get_env(void *mlx, int number)

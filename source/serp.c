@@ -23,10 +23,10 @@ static t_pyr	get_pyr(t_point top, t_point a, t_point b, t_point c)
 
 static void		draw_pyr(t_env *env, t_pyr pyr)
 {
-	draw_triang(env, (t_point[3]){pyr.top, pyr.a, pyr.b}, GREEN);
-	draw_triang(env, (t_point[3]){pyr.top, pyr.b, pyr.c}, WHITE);
-	draw_triang(env, (t_point[3]){pyr.top, pyr.c, pyr.a}, BLUE);
-	draw_triang(env, (t_point[3]){pyr.a, pyr.b, pyr.c}, RED);
+	draw_triang(env, (t_point[3]){pyr.top, pyr.a, pyr.b}, 0xFF0000);
+	draw_triang(env, (t_point[3]){pyr.top, pyr.b, pyr.c}, 0xFF7F00);
+	draw_triang(env, (t_point[3]){pyr.top, pyr.c, pyr.a}, 0xFFFF00);
+	draw_triang(env, (t_point[3]){pyr.a, pyr.b, pyr.c}, 0x00FF00);
 }
 
 static void		serp_recur(t_env *env, t_pyr pyr, int lev)
