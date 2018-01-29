@@ -155,24 +155,22 @@ void	draw(t_env *env)
 {
 	ft_bzero(env->image_data, WIDTH * HEIGHT * 4);
 	ft_bzero(env->z_buff, WIDTH * HEIGHT * 8);
-	if (env->fract_type == 1)
+	if (env->fract_type == MANDEL)
 		fill_mandel(env);
-	else if (env->fract_type == 2)
+	else if (env->fract_type == JULIA)
 		fill_julia(env);
-	else if (env->fract_type == 3)
-		fill_bulb(env);
-	else if (env->fract_type == 4)
-		fill_apoll(env);
-	else if (env->fract_type == 5)
-		fill_serp(env);
-	else if (env->fract_type == 6)
-		fill_tricorn(env);
-	else if (env->fract_type == 7)
+	else if (env->fract_type == SHIP)
 		fill_ship(env);
-	else if (env->fract_type == 8)
-		fill_cantor(env);
-	else if (env->fract_type == 9)
+	else if (env->fract_type == TRICORN)
+		fill_tricorn(env);
+	else if (env->fract_type == APOLL)
+		fill_apoll(env);
+	else if (env->fract_type == TREE)
 		fill_tree(env);
+	else if (env->fract_type == CANTOR)
+		fill_cantor(env);
+	else if (env->fract_type == SERP)
+		fill_serp(env);
 	mlx_put_image_to_window(env->mlx, env->wind, env->image, 0, 0);
 }
 
@@ -188,66 +186,59 @@ t_env	*get_env(void *mlx, int fract)
 	env->wind = mlx_new_window(env->mlx, WIDTH, HEIGHT, "Fractol");
 	env->image = mlx_new_image(env->mlx, WIDTH, HEIGHT);
 	env->image_data = (int *)mlx_get_data_addr(env->image, &env->bits_per_pixel, &env->line_size, &env->endian);
-	if (fract == 1)
+	if (fract == MANDEL)
 	{
-		env->fract_type = 1;
+		env->fract_type = MANDEL;
 		env->fract.scale = 0.005;
 		env->fract.shift.re = -0.75;
 		env->fract.shift.im = 0;
 	}
-	else if (fract == 2)
+	else if (fract == JULIA)
 	{
-		env->fract_type = 2;
+		env->fract_type = JULIA;
 		env->fract.scale = 1;
 		env->fract.shift.re = -0.7;
 		env->fract.shift.im = 0.27015;
 		env->fract.pivot.re = 0.0;
 		env->fract.pivot.re = 0.1;
 	}
-	else if (fract == 3)
+	else if (fract == SHIP)
 	{
-		env->fract_type = 3;
-		env->fract.scale = 0.000005;
-		env->fract.shift.re = 0;
-		env->fract.shift.im = 0;
-	}
-	else if (fract == 4)
-	{
-		env->fract_type = 4;
-		env->fract.lev = 0;
-	}
-	else if (fract == 5)
-	{
-		env->fract_type = 5;
-		env->fract.lev = 0;
-		env->fract.len = MIN(WIDTH, HEIGHT) / 1.3;
-	}
-	else if (fract == 6)
-	{
-		env->fract_type = 6;
+		env->fract_type = SHIP;
 		env->fract.scale = 0.005;
 		env->fract.shift.re = -0.75;
 		env->fract.shift.im = 0;
 	}
-	else if (fract == 7)
+	else if (fract == TRICORN)
 	{
-		env->fract_type = 7;
+		env->fract_type = TRICORN;
 		env->fract.scale = 0.005;
 		env->fract.shift.re = -0.75;
 		env->fract.shift.im = 0;
 	}
-	else if (fract == 8)
+	else if (fract == APOLL)
 	{
-		env->fract_type = 8;
+		env->fract_type = APOLL;
 		env->fract.lev = 0;
-		env->fract.len = MIN(WIDTH, HEIGHT) / 2;
 	}
-	else if (fract == 9)
+	else if (fract == TREE)
 	{
-		env->fract_type = 9;
+		env->fract_type = TREE;
 		env->fract.lev = 0;
 		env->fract.tilte = 0;
 		env->fract.closeness = 45;
+	}
+	else if (fract == CANTOR)
+	{
+		env->fract_type = CANTOR;
+		env->fract.lev = 0;
+		env->fract.len = MIN(WIDTH, HEIGHT) / 2;
+	}
+	else if (fract == SERP)
+	{
+		env->fract_type = SERP;
+		env->fract.lev = 0;
+		env->fract.len = MIN(WIDTH, HEIGHT) / 1.3;
 	}
 	env->ang_x = 0;
 	env->ang_y = 0;
@@ -274,7 +265,7 @@ void	validate_fract(int argc, char **argv)
 
 	i = 0;
 	while (++i < argc)
-		if (ft_atoi(argv[i]) < 1 || ft_atoi(argv[i]) > 9)
+		if (ft_atoi(argv[i]) < 1 || ft_atoi(argv[i]) > 8)
 			exit(show_usage_error());
 }
 

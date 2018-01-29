@@ -36,6 +36,15 @@
 # define WHITE 0xFFFFFF
 # define BROWN 0x8B4513
 
+# define MANDEL 1
+# define JULIA 2
+# define SHIP 3
+# define TRICORN 4
+# define APOLL 5
+# define TREE 6
+# define CANTOR 7
+# define SERP 8
+
 typedef struct	s_2point
 {
 	double	x;
@@ -143,8 +152,6 @@ void		draw_circle(t_env *env, t_circle circle, int lev);
 double		degree_to_rad(int degree);
 
 void		fill_apoll(t_env *env);
-
-void		fill_bulb(t_env *env);
 
 void		clear_z_buffer(t_env *env);
 
