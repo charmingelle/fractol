@@ -4,7 +4,7 @@ void	fill_mandel(t_env *env)
 {
 	int			x;
 	int			y;
-	t_complex	z;
+	t_2point	z;
 	double		temp;
 	int			i;
 
@@ -15,13 +15,13 @@ void	fill_mandel(t_env *env)
 		while (++x < WIDTH)
 		{
 			i = -1;
-			z.re = 0;
-			z.im = 0;
-			while ((z.re * z.re + z.im * z.im) < 4 && ++i < 256)
+			z.x = 0;
+			z.y = 0;
+			while ((z.x * z.x + z.y * z.y) < 4 && ++i < 256)
 			{
-				temp = z.re * z.re - z.im * z.im + env->fract.shift.re + (x - WIDTH / 2) * env->fract.scale;
-				z.im = 2 * z.re * z.im + env->fract.shift.im + (y - HEIGHT / 2) * env->fract.scale;
-				z.re = temp;
+				temp = z.x * z.x - z.y * z.y + env->fract.shift.x + (x - WIDTH / 2) * env->fract.scale;
+				z.y = 2 * z.x * z.y + env->fract.shift.y + (y - HEIGHT / 2) * env->fract.scale;
+				z.x = temp;
 			}
 			env->image_data[y * WIDTH + x] = get_palette_color(i);
 		}
@@ -32,7 +32,7 @@ void	fill_julia(t_env *env)
 {
 	int			x;
 	int			y;
-	t_complex	z;
+	t_2point	z;
 	double		temp;
 	int			i;
 
@@ -43,13 +43,13 @@ void	fill_julia(t_env *env)
 		while (++x < WIDTH)
 		{
 			i = -1;
-			z.re = 1.5 * (x - WIDTH / 2) / (0.5 * env->fract.scale * WIDTH) + env->fract.pivot.re;
-			z.im = (y - HEIGHT / 2) / (0.5 * env->fract.scale * HEIGHT) + env->fract.pivot.im;
-			while ((z.re * z.re + z.im * z.im) < 4 && ++i < 255)
+			z.x = 1.5 * (x - WIDTH / 2) / (0.5 * env->fract.scale * WIDTH) + env->fract.pivot.x;
+			z.y = (y - HEIGHT / 2) / (0.5 * env->fract.scale * HEIGHT) + env->fract.pivot.y;
+			while ((z.x * z.x + z.y * z.y) < 4 && ++i < 255)
 			{
-				temp = z.re * z.re - z.im * z.im + env->fract.shift.re;
-				z.im = 2 * z.re * z.im + env->fract.shift.im;
-				z.re = temp;
+				temp = z.x * z.x - z.y * z.y + env->fract.shift.x;
+				z.y = 2 * z.x * z.y + env->fract.shift.y;
+				z.x = temp;
 			}
 			env->image_data[y * WIDTH + x] = get_palette_color(i);
 		}
@@ -60,7 +60,7 @@ void	fill_ship(t_env *env)
 {
 	int			x;
 	int			y;
-	t_complex	z;
+	t_2point	z;
 	double		temp;
 	int			i;
 
@@ -71,13 +71,13 @@ void	fill_ship(t_env *env)
 		while (++x < WIDTH)
 		{
 			i = -1;
-			z.re = 0;
-			z.im = 0;
-			while ((z.re * z.re + z.im * z.im) < 4 && ++i < 256)
+			z.x = 0;
+			z.y = 0;
+			while ((z.x * z.x + z.y * z.y) < 4 && ++i < 256)
 			{
-				temp = z.re * z.re - z.im * z.im + env->fract.shift.re + (x - WIDTH / 2) * env->fract.scale;
-				z.im = 2 * fabs(z.re * z.im) + env->fract.shift.im + (y - HEIGHT / 2) * env->fract.scale;
-				z.re = temp;
+				temp = z.x * z.x - z.y * z.y + env->fract.shift.x + (x - WIDTH / 2) * env->fract.scale;
+				z.y = 2 * fabs(z.x * z.y) + env->fract.shift.y + (y - HEIGHT / 2) * env->fract.scale;
+				z.x = temp;
 			}
 			env->image_data[y * WIDTH + x] = get_palette_color(i);
 		}
@@ -88,7 +88,7 @@ void	fill_tricorn(t_env *env)
 {
 	int			x;
 	int			y;
-	t_complex	z;
+	t_2point	z;
 	double		temp;
 	int			i;
 
@@ -99,13 +99,13 @@ void	fill_tricorn(t_env *env)
 		while (++x < WIDTH)
 		{
 			i = -1;
-			z.re = 0;
-			z.im = 0;
-			while ((z.re * z.re + z.im * z.im) < 4 && ++i < 256)
+			z.x = 0;
+			z.y = 0;
+			while ((z.x * z.x + z.y * z.y) < 4 && ++i < 256)
 			{
-				temp = z.re * z.re - z.im * z.im + env->fract.shift.re + (x - WIDTH / 2) * env->fract.scale;
-				z.im = -2 * z.re * z.im + env->fract.shift.im + (y - HEIGHT / 2) * env->fract.scale;
-				z.re = temp;
+				temp = z.x * z.x - z.y * z.y + env->fract.shift.x + (x - WIDTH / 2) * env->fract.scale;
+				z.y = -2 * z.x * z.y + env->fract.shift.y + (y - HEIGHT / 2) * env->fract.scale;
+				z.x = temp;
 			}
 			env->image_data[y * WIDTH + x] = get_palette_color(i);
 		}

@@ -91,22 +91,17 @@ typedef struct	s_cude
 	t_point	back_d;
 }				t_cube;
 
-typedef struct	s_complex
-{
-	double	re;
-	double	im;
-}				t_complex;
-
 typedef struct	s_fract
 {
 	int			number;
 	double		scale;
-	t_complex	shift;
-	t_complex	pivot;
+	t_2point	shift;
+	t_2point	pivot;
 	int			lev;
 	int			len;
 	int			tilte;
 	int			closeness;
+	char		*man;
 }				t_fract;
 
 typedef struct	s_env

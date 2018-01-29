@@ -3,9 +3,9 @@
 void	arrow_left_handler(t_env *env)
 {
 	if (env->fract.number == MANDEL || env->fract.number == TRICORN || env->fract.number == SHIP)
-		env->fract.shift.re += env->fract.scale * 10;
+		env->fract.shift.x += env->fract.scale * 10;
 	else if (env->fract.number == JULIA)
-		env->fract.pivot.re += env->fract.scale / 20;
+		env->fract.pivot.x += env->fract.scale / 20;
 	else if (env->fract.number == TREE)
 		env->fract.tilte -= 1;
 }
@@ -13,9 +13,9 @@ void	arrow_left_handler(t_env *env)
 void	arrow_right_handler(t_env *env)
 {
 	if (env->fract.number == MANDEL || env->fract.number == TRICORN || env->fract.number == SHIP)
-		env->fract.shift.re -= env->fract.scale * 10;
+		env->fract.shift.x -= env->fract.scale * 10;
 	else if (env->fract.number == JULIA)
-		env->fract.pivot.re -= env->fract.scale / 20;
+		env->fract.pivot.x -= env->fract.scale / 20;
 	else if (env->fract.number == TREE)
 		env->fract.tilte += 1;
 }
@@ -23,9 +23,9 @@ void	arrow_right_handler(t_env *env)
 void	arrow_up_handler(t_env *env)
 {
 	if (env->fract.number == MANDEL || env->fract.number == TRICORN || env->fract.number == SHIP)
-		env->fract.shift.im += env->fract.scale * 10;
+		env->fract.shift.y += env->fract.scale * 10;
 	else if (env->fract.number == JULIA)
-		env->fract.pivot.im += env->fract.scale / 20;
+		env->fract.pivot.y += env->fract.scale / 20;
 	else if ((env->fract.number == APOLL || env->fract.number == SERP || env->fract.number == CANTOR) && env->fract.lev < 7)
 		env->fract.lev += 1;
 	else if (env->fract.number == TREE)
@@ -35,9 +35,9 @@ void	arrow_up_handler(t_env *env)
 void	arrow_down_handler(t_env *env)
 {
 	if (env->fract.number == MANDEL || env->fract.number == TRICORN || env->fract.number == SHIP)
-		env->fract.shift.im -= env->fract.scale * 10;
+		env->fract.shift.y -= env->fract.scale * 10;
 	else if (env->fract.number == JULIA)
-		env->fract.pivot.im -= env->fract.scale / 20;
+		env->fract.pivot.y -= env->fract.scale / 20;
 	else if ((env->fract.number == APOLL || env->fract.number == SERP || env->fract.number == CANTOR) && env->fract.lev > 0)
 		env->fract.lev -= 1;
 	else if (env->fract.number == TREE)
@@ -69,18 +69,18 @@ void	scroll_up_handler(t_env *env, int x, int y)
 	if (env->fract.number == MANDEL || env->fract.number == TRICORN || env->fract.number == SHIP)
 	{
 		env->fract.scale -= env->fract.scale / SCALE_COEFFICIENT;
-		env->fract.shift.re = ft_lerp(env->fract.shift.re,
-			env->fract.shift.re + (x - WIDTH / 2.0) * env->fract.scale, 0.07);
-		env->fract.shift.im = ft_lerp(env->fract.shift.im,
-			env->fract.shift.im + (y - HEIGHT / 2.0) * env->fract.scale, 0.07);
+		env->fract.shift.x = ft_lerp(env->fract.shift.x,
+			env->fract.shift.x + (x - WIDTH / 2.0) * env->fract.scale, 0.07);
+		env->fract.shift.y = ft_lerp(env->fract.shift.y,
+			env->fract.shift.y + (y - HEIGHT / 2.0) * env->fract.scale, 0.07);
 	}
 	else if (env->fract.number == JULIA)
 	{
 		env->fract.scale += env->fract.scale / SCALE_COEFFICIENT;
-		env->fract.pivot.re = ft_lerp(env->fract.pivot.re,
-			1.5 * (x - WIDTH / 2) / (0.5 * env->fract.scale * WIDTH) + env->fract.pivot.re, 0.06);
-		env->fract.pivot.im = ft_lerp(env->fract.pivot.im,
-			(y - HEIGHT / 2) / (0.5 * env->fract.scale * HEIGHT) + env->fract.pivot.im, 0.06);
+		env->fract.pivot.x = ft_lerp(env->fract.pivot.x,
+			1.5 * (x - WIDTH / 2) / (0.5 * env->fract.scale * WIDTH) + env->fract.pivot.x, 0.06);
+		env->fract.pivot.y = ft_lerp(env->fract.pivot.y,
+			(y - HEIGHT / 2) / (0.5 * env->fract.scale * HEIGHT) + env->fract.pivot.y, 0.06);
 	}
 	else if (env->fract.number == TREE && env->fract.lev < 15)
 		env->fract.lev += 1;
@@ -111,8 +111,8 @@ int		mouse_move_handler(int x, int y, t_env *env)
 {
 	if (env->fract.number == JULIA)
 	{
-		env->fract.shift.re = -1.4 * x / WIDTH;
-		env->fract.shift.im = 0.5403 * y / HEIGHT;
+		env->fract.shift.x = -1.4 * x / WIDTH;
+		env->fract.shift.y = 0.5403 * y / HEIGHT;
 		draw(env);
 	}
 	return (0);

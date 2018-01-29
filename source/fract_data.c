@@ -6,8 +6,9 @@ t_fract	get_mandel()
 
 	fract.number = MANDEL;
 	fract.scale = 0.005;
-	fract.shift.re = -0.75;
-	fract.shift.im = 0;
+	fract.shift.x = -0.75;
+	fract.shift.y = 0;
+	fract.man = "LEFT, RIGHT, UP, DOWN - move     SCROLL - change scale";
 	return (fract);
 }
 
@@ -17,10 +18,11 @@ t_fract	get_julia()
 
 	fract.number = JULIA;
 	fract.scale = 1;
-	fract.shift.re = -0.7;
-	fract.shift.im = 0.27015;
-	fract.pivot.re = 0.0;
-	fract.pivot.re = 0.1;
+	fract.shift.x = -0.7;
+	fract.shift.y = 0.27015;
+	fract.pivot.x = 0.0;
+	fract.pivot.x = 0.1;
+	fract.man = "LEFT, RIGHT, UP, DOWN - move     SCROLL - change scale";
 	return (fract);
 }
 
@@ -30,8 +32,9 @@ t_fract	get_ship()
 
 	fract.number = SHIP;
 	fract.scale = 0.005;
-	fract.shift.re = -0.75;
-	fract.shift.im = 0;
+	fract.shift.x = -0.75;
+	fract.shift.y = 0;
+	fract.man = "LEFT, RIGHT, UP, DOWN - move     SCROLL - change scale";
 	return (fract);
 }
 
@@ -41,8 +44,9 @@ t_fract	get_tricorn()
 
 	fract.number = TRICORN;
 	fract.scale = 0.005;
-	fract.shift.re = -0.75;
-	fract.shift.im = 0;
+	fract.shift.x = -0.75;
+	fract.shift.y = 0;
+	fract.man = "LEFT, RIGHT, UP, DOWN - move     SCROLL - change scale";
 	return (fract);
 }
 
@@ -52,6 +56,7 @@ t_fract	get_apoll()
 
 	fract.number = APOLL;
 	fract.lev = 0;
+	fract.man = "UP, DOWN - change number of circles";
 	return (fract);
 }
 
@@ -63,6 +68,7 @@ t_fract	get_tree()
 	fract.lev = 0;
 	fract.tilte = 0;
 	fract.closeness = 45;
+	fract.man = "SCROLL - change number of branches     LEFT, RIGHT - bend branches     UP, DOWN - change branch closeness";
 	return (fract);
 }
 
@@ -73,6 +79,7 @@ t_fract	get_cantor()
 	fract.number = CANTOR;
 	fract.lev = 0;
 	fract.len = MIN(WIDTH, HEIGHT) / 2;
+	fract.man = "UP, DOWN - change number of cubes     W, A, S, D, Q, E - rotate";
 	return (fract);
 }
 
@@ -83,6 +90,7 @@ t_fract	get_serp()
 	fract.number = SERP;
 	fract.lev = 0;
 	fract.len = MIN(WIDTH, HEIGHT) / 1.3;
+	fract.man = "UP, DOWN - change number of pyramids     W, A, S, D, Q, E - rotate";
 	return (fract);
 }
 
