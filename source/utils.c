@@ -53,3 +53,8 @@ int		get_palette_color(int i)
 
 	return (palette[i % 139]);
 }
+
+double	ft_lerp(double a, double b, double t)
+{
+	return ((1.0 - t) * a + b * t);
+}

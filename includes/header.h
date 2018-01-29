@@ -197,4 +197,6 @@ t_fract		get_fract_data(int number);
 
 void		fill_fract_image(t_env *env);
 
+double		ft_lerp(double a, double b, double t);
+
 #endif
