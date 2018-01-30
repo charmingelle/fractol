@@ -9,7 +9,8 @@
 + Check why Apoll fract level is level + 1
 + Set nice color for Apoll fract
 - Double check Makefile
-- Get rid of unnecessary redrawings in event handlers
++ Get rid of unnecessary redrawings in event handlers
 - Set nice colors for all fracts
 - Move Julia
 - Make Julia change in a certain mode
+- Get rid of unnecessary functions in header, make other functions static

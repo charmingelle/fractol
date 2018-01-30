@@ -4,12 +4,20 @@
 # include "../libft/libft.h"
 # include "../minilibx_macos/mlx.h"
 # include <math.h>
-
 # include <stdio.h>
+# include <stdlib.h>
 
+#ifdef __APPLE__
+#include <OpenCL/opencl.h>
+#else
+#include <CL/cl.h>
+#endif
+
+# define MAX_SOURCE_SIZE 0x100000
 # define MIN(X, Y) (((X) < (Y)) ? (X) : (Y))
 # define WIDTH 1200
 # define HEIGHT 1000
+# define MEM_SIZE WIDTH * HEIGHT
 # define KEY_DOWN 2
 # define CROSS_CLICK 17
 # define MOUSE_MOVE 6
@@ -93,7 +101,26 @@ typedef struct	s_fract
 	int			tilte;
 	int			closeness;
 	char		*man;
+	char		*file_name;
 }				t_fract;
+
+// typedef struct	s_cl
+// {
+// 	cl_device_id		device_id;
+// 	cl_context			context;
+// 	cl_command_queue	command_queue;
+// 	cl_mem				memobj;
+// 	cl_program			program;
+// 	cl_kernel			kernel;
+// 	cl_platform_id		platform_id;
+// 	cl_uint				ret_num_devices;
+// 	cl_uint				ret_num_platforms;
+// 	cl_int				ret;
+// 	int					fd;
+// 	char 				*fileName;
+// 	char 				*source_str;
+// 	size_t 				source_size;
+// }				t_cl;
 
 typedef struct	s_env
 {
@@ -112,6 +139,10 @@ typedef struct	s_env
 }				t_env;
 
 int			show_usage_error();
+
+int			show_kernel_error();
+
+int			show_set_param_error();
 
 int			key_handler(int keycode, t_env *env);
 

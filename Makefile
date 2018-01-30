@@ -23,7 +23,7 @@ all: $(OBJDIR) $(NAME)
 $(NAME): $(OBJ)
 	make -C libft
 	make -C minilibx_macos
-	$(CC) -O3 -o $(NAME) $(OBJ) ${LIBS} -framework OpenGL -framework AppKit -I $(INCDIR)
+	$(CC) -O3 -o $(NAME) $(OBJ) ${LIBS} -framework OpenGL -framework AppKit -framework opencl -I $(INCDIR)
 
 $(OBJ): $(OBJDIR)/%.o : $(SRCDIR)/%.c $(HEADERS)
 	$(CC) $(CFLAGS) -c $< -o $@ -I $(INCDIR)
