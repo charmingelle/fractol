@@ -64,7 +64,7 @@ t_2point	get_close_center(t_circle c0, t_circle c1, t_circle container,
 	return (second);
 }
 
-t_2point	get_outer_center(t_env *env, t_2point a, t_2point b, t_2point c)
+t_2point	get_outer_center(t_2point a, t_2point b, t_2point c)
 {
 	t_2point	center;
 	double		s1;
@@ -79,7 +79,7 @@ t_2point	get_outer_center(t_env *env, t_2point a, t_2point b, t_2point c)
 	return (center);
 }
 
-t_circle	get_outer_circle(t_env *env, t_circle c0, t_circle c1, t_circle c2)
+t_circle	get_outer_circle(t_circle c0, t_circle c1, t_circle c2)
 {
 	double		a;
 	double		b;
@@ -90,7 +90,7 @@ t_circle	get_outer_circle(t_env *env, t_circle c0, t_circle c1, t_circle c2)
 	b = -1 / c1.rad;
 	c = -1 / c2.rad;
 	apoll.rad = 1 / (a + b + c + 2 * sqrt(a * b + b * c + c * a));
-	apoll.center = get_outer_center(env, c0.center, c1.center, c2.center);
+	apoll.center = get_outer_center(c0.center, c1.center, c2.center);
 	return (apoll);
 }
 
@@ -168,7 +168,7 @@ void		fill_apoll(t_env *env)
 	c0 = get_circle(WIDTH / 2, rad, rad);
 	c1 = get_circle(WIDTH / 2 - rad, rad + rad * sqrt(3), rad);
 	c2 = get_circle(WIDTH / 2 + rad, rad + rad * sqrt(3), rad);
-	big = get_outer_circle(env, c0, c1, c2);
+	big = get_outer_circle(c0, c1, c2);
 	draw_circle(env, big, 0, get_geom_palette_color(0));
 	if (env->fract.lev > 0)
 	{

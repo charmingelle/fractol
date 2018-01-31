@@ -26,19 +26,19 @@ static int		get_palette_color(int i)
 	return (palette[i % 139]);
 }
 
-__kernel void hello(__global int* image_data, int width, int height, double scale, double shift_x, double shift_y, double pivot_x, double pivot_y, int lev, int len, 	int tilte, int closeness)
+__kernel void hello(__global int* image_data, int width, int height, double scale, double shift_x, double shift_y, double pivot_x, double pivot_y)
 {
 	int		x = get_global_id(0);
 	int		y = get_global_id(1);
 	double	temp;
-	int		i = -1;
-	double	z_x = 0;
-	double	z_y = 0;
+	int	 	i = -1;
+	double  z_x = 0;
+	double  z_y = 0;
 
-	while ((z_x * z_x + z_y * z_y) < 4 && ++i < 256)
+	while ((z_x * z_x + z_y * z_y) < 4 && ++i < 138)
 	{
 		temp = z_x * z_x - z_y * z_y + shift_x + (x - width / 2) * scale;
-		z_y = 2 * z_x * z_y + shift_y + (y - height / 2) * scale;
+		z_y = 2 * fabs(z_x * z_y) + shift_y + (y - height / 2) * scale;
 		z_x = temp;
 	}
 	image_data[y * width + x] = get_palette_color(i);

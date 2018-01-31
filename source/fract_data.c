@@ -9,7 +9,6 @@ t_fract	get_mandel()
 	fract.shift.x = -0.75;
 	fract.shift.y = 0;
 	fract.man = "LEFT, RIGHT, UP, DOWN - move     SCROLL - change scale";
-	fract.file_name = "./source/mandel.cl";
 	return (fract);
 }
 
@@ -22,9 +21,8 @@ t_fract	get_julia()
 	fract.shift.x = -0.7;
 	fract.shift.y = 0.27015;
 	fract.pivot.x = 0.0;
-	fract.pivot.x = 0.1;
+	fract.pivot.y = 0.0;
 	fract.man = "LEFT, RIGHT, UP, DOWN - move     SCROLL - change scale";
-	fract.file_name = "./source/julia.cl";
 	return (fract);
 }
 
