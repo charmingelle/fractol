@@ -1,6 +1,6 @@
-#include "../includes/header.h"
+#include "header.h"
 
-void tree_recur(t_env *env, t_2point start, t_2point dir, double len, int lev)
+static void tree_recur(t_env *env, t_2point start, t_2point dir, double len, int lev)
 {
 	t_2point	end;
 	t_2point	new_dir;

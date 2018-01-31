@@ -1,32 +1,34 @@
-NAME	=	fractol
+NAME		=	fractol
 
-CC		=	gcc
+CC			=	gcc
 
-CFLAGS	=	
+CFLAGS		=	
 
-SRCDIR	=	source
+INCFLAGS	=	$(addprefix -I, includes libft minilibx_macos)
 
-INCDIR	=	includes
+SRCDIR		=	source
 
-SRC		=	apoll.c cantor.c color.c draw.c error.c event_handlers.c fill_fract_image.c fract_data.c main.c mutate.c serp.c tree.c utils.c
+INCDIR		=	includes
 
-HEADERS	=	$(addprefix $(INCDIR)/, header.h)
+SRC			=	apoll.c cantor.c color.c draw.c error.c event_handlers.c fill_fract_image.c fract_data.c main.c mutate.c serp.c tree.c utils.c
 
-LIBS	=	libft/libft.a minilibx_macos/libmlx.a
+HEADERS		=	$(addprefix $(INCDIR)/, header.h)
 
-OBJDIR	=	obj
+LIBS		=	libft/libft.a minilibx_macos/libmlx.a
 
-OBJ		=	$(addprefix $(OBJDIR)/, $(SRC:.c=.o))
+OBJDIR		=	obj
+
+OBJ			=	$(addprefix $(OBJDIR)/, $(SRC:.c=.o))
 
 all: $(OBJDIR) $(NAME)
 
 $(NAME): $(OBJ)
 	make -C libft
 	make -C minilibx_macos
-	$(CC) -O3 -o $(NAME) $(OBJ) ${LIBS} -framework OpenGL -framework AppKit -framework opencl -I $(INCDIR)
+	$(CC) -O3 -o $(NAME) $(OBJ) ${LIBS} -framework OpenGL -framework AppKit -framework opencl $(INCFLAGS)
 
 $(OBJ): $(OBJDIR)/%.o : $(SRCDIR)/%.c $(HEADERS)
-	$(CC) $(CFLAGS) -c $< -o $@ -I $(INCDIR)
+	$(CC) $(CFLAGS) -c $< -o $@ $(INCFLAGS)
 
 $(OBJDIR):
 	mkdir -p $(OBJDIR)

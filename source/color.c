@@ -1,4 +1,4 @@
-#include "../includes/header.h"
+#include "header.h"
 
 static int	get_r(int color)
 {

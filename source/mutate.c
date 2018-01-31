@@ -1,4 +1,4 @@
-#include "../includes/header.h"
+#include "header.h"
 
 t_point	get_modified_point(t_env *env, t_point point)
 {

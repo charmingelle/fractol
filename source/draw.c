@@ -1,6 +1,6 @@
-#include "../includes/header.h"
+#include "header.h"
 
-void	draw_seg(t_env *env, t_point a, t_point b,
+static void	draw_seg(t_env *env, t_point a, t_point b,
 								int color)
 {
 	double	step;
@@ -78,8 +78,8 @@ void	draw_2seg(t_env *env, t_2point start, t_2point end, int color)
 	t = 0.0;
 	while (t <= 1.0)
 	{
-		x = (end.x - start.x) * t + start.x;
-		y = (end.y - start.y) * t + start.y;
+		x = ROUND((end.x - start.x) * t) + start.x;
+		y = ROUND((end.y - start.y) * t) + start.y;
 		env->image_data[y * WIDTH + x] = color;
 		t += step;
 	}

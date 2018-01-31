@@ -1,18 +1,19 @@
-#include "../includes/header.h"
+#include "header.h"
 
-t_fract	get_mandel()
+static t_fract	get_mandel()
 {
 	t_fract	fract;
 
 	fract.number = MANDEL;
 	fract.scale = 0.005;
-	fract.shift.x = -0.75;
+	fract.shift.x = 0;
 	fract.shift.y = 0;
 	fract.man = "LEFT, RIGHT, UP, DOWN - move     SCROLL - change scale";
+	fract.file = "./cl/mandel.cl";
 	return (fract);
 }
 
-t_fract	get_julia()
+static t_fract	get_julia()
 {
 	t_fract	fract;
 
@@ -22,35 +23,38 @@ t_fract	get_julia()
 	fract.shift.y = 0.27015;
 	fract.pivot.x = 0.0;
 	fract.pivot.y = 0.0;
-	fract.man = "LEFT, RIGHT, UP, DOWN - move     SCROLL - change scale";
+	fract.man = "LEFT, RIGHT, UP, DOWN - move     SCROLL - change scale     J - Julia dancing mode :)";
+	fract.file = "./cl/julia.cl";
 	return (fract);
 }
 
-t_fract	get_ship()
+static t_fract	get_ship()
 {
 	t_fract	fract;
 
 	fract.number = SHIP;
 	fract.scale = 0.005;
-	fract.shift.x = -0.75;
+	fract.shift.x = 0;
 	fract.shift.y = 0;
 	fract.man = "LEFT, RIGHT, UP, DOWN - move     SCROLL - change scale";
+	fract.file = "./cl/ship.cl";
 	return (fract);
 }
 
-t_fract	get_tricorn()
+static t_fract	get_tricorn()
 {
 	t_fract	fract;
 
 	fract.number = TRICORN;
 	fract.scale = 0.005;
-	fract.shift.x = -0.75;
+	fract.shift.x = 0;
 	fract.shift.y = 0;
 	fract.man = "LEFT, RIGHT, UP, DOWN - move     SCROLL - change scale";
+	fract.file = "./cl/tricorn.cl";
 	return (fract);
 }
 
-t_fract	get_apoll()
+static t_fract	get_apoll()
 {
 	t_fract	fract;
 
@@ -60,7 +64,7 @@ t_fract	get_apoll()
 	return (fract);
 }
 
-t_fract	get_tree()
+static t_fract	get_tree()
 {
 	t_fract	fract;
 
@@ -72,7 +76,7 @@ t_fract	get_tree()
 	return (fract);
 }
 
-t_fract	get_cantor()
+static t_fract	get_cantor()
 {
 	t_fract	fract;
 
@@ -83,7 +87,7 @@ t_fract	get_cantor()
 	return (fract);
 }
 
-t_fract	get_serp()
+static t_fract	get_serp()
 {
 	t_fract	fract;
 

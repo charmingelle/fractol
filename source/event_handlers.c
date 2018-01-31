@@ -1,6 +1,14 @@
-#include "../includes/header.h"
+#include "header.h"
 
-void	arrow_left_handler(t_env *env)
+static void	julia_special_handler(t_env *env)
+{
+	if (env->juls == 0)
+		env->juls = 1;
+	else
+		env->juls = 0;
+}
+
+static void	arrow_left_handler(t_env *env)
 {
 	int	changed;
 
@@ -14,7 +22,7 @@ void	arrow_left_handler(t_env *env)
 	changed ? draw(env) : 0;
 }
 
-void	arrow_right_handler(t_env *env)
+static void	arrow_right_handler(t_env *env)
 {
 	int	changed;
 
@@ -28,7 +36,7 @@ void	arrow_right_handler(t_env *env)
 	changed ? draw(env) : 0;
 }
 
-void	arrow_up_handler(t_env *env)
+static void	arrow_up_handler(t_env *env)
 {
 	int	changed;
 
@@ -46,7 +54,7 @@ void	arrow_up_handler(t_env *env)
 	changed ? draw(env) : 0;
 }
 
-void	arrow_down_handler(t_env *env)
+static void	arrow_down_handler(t_env *env)
 {
 	int	changed;
 
@@ -70,6 +78,7 @@ int		key_handler(int keycode, t_env *env)
 	rotatable = (env->fract.number == CANTOR || env->fract.number == SERP);
 	rotated = 0;
 	keycode == ESC ? exit(0) : 0;
+	keycode == J && env->fract.number == JULIA ? julia_special_handler(env) : 0;
 	keycode == A && rotatable && (rotated = 1) ? (env->ang_y = (env->ang_y + 5) % 360) : 0;
 	keycode == D && rotatable && (rotated = 1) ? (env->ang_y = (env->ang_y - 5) % 360) : 0;
 	keycode == W && rotatable && (rotated = 1) ? (env->ang_x = (env->ang_x - 5) % 360) : 0;
@@ -84,7 +93,7 @@ int		key_handler(int keycode, t_env *env)
 	return (0);
 }
 
-void	scroll_up_handler(t_env *env, int x, int y)
+static void	scroll_up_handler(t_env *env, int x, int y)
 {
 	int	changed;
 
@@ -110,7 +119,7 @@ void	scroll_up_handler(t_env *env, int x, int y)
 	changed ? draw(env) : 0;
 }
 
-void	scroll_down_handler(t_env *env, int x, int y)
+static void	scroll_down_handler(t_env *env, int x, int y)
 {
 	int	changed;
 
@@ -133,7 +142,7 @@ int		mouse_handler(int button, int x, int y, t_env *env)
 
 int		mouse_move_handler(int x, int y, t_env *env)
 {
-	if (env->fract.number == JULIA)
+	if (env->fract.number == JULIA && env->juls)
 	{
 		env->fract.shift.x = -1.4 * x / WIDTH;
 		env->fract.shift.y = 0.5403 * y / HEIGHT;

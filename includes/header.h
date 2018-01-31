@@ -1,22 +1,19 @@
 #ifndef HEADER_H
 # define HEADER_H
 
-# include "../libft/libft.h"
-# include "../minilibx_macos/mlx.h"
+# include "libft.h"
+# include "mlx.h"
 # include <math.h>
 # include <stdio.h>
 # include <stdlib.h>
+# include <OpenCL/opencl.h>
 
-#ifdef __APPLE__
-	# include <OpenCL/opencl.h>
-#else
-	# include <CL/cl.h>
-#endif
-
-# define MAX_SOURCE_SIZE 0x100000
+# define ROUND(x)((long)(x + 0.5))
 # define MIN(X, Y) (((X) < (Y)) ? (X) : (Y))
-# define WIDTH 1200
-# define HEIGHT 1000
+# define GMP(p, a, b, c)((t_point){p.x + a, p.y + b, p.z + c})
+# define MAX_SOURCE_SIZE 0x100000
+# define WIDTH 2560
+# define HEIGHT 1440
 # define MEM_SIZE WIDTH * HEIGHT * 4
 # define KEY_DOWN 2
 # define CROSS_CLICK 17
@@ -32,6 +29,7 @@
 # define D 2
 # define Q 12
 # define E 14
+# define J 38
 # define SCROLL_UP 4
 # define SCROLL_DOWN 5
 # define SCALE_COEFFICIENT 20
@@ -101,7 +99,7 @@ typedef struct	s_fract
 	int			tilte;
 	int			closeness;
 	char		*man;
-	char		*file_name;
+	char		*file;
 }				t_fract;
 
 typedef struct	s_cl
@@ -136,6 +134,8 @@ typedef struct	s_env
 	int			ang_y;
 	int			ang_z;
 	double		z_buff[WIDTH * HEIGHT];
+	int			juls;
+	t_cl		cl;
 }				t_env;
 
 int			show_usage_error();
@@ -166,8 +166,6 @@ double		get_dist(t_point a, t_point b);
 
 void		draw_2seg(t_env *env, t_2point start, t_2point end, int lev);
 
-void		draw_seg(t_env *env, t_point a, t_point b, int color);
-
 void		draw_triang(t_env *env, t_point p[3], int color);
 
 void		draw_parallelogram(t_env *env, t_point a[2], t_point b[2], int color);
@@ -177,30 +175,6 @@ void		draw_cube(t_env *env, t_cube cube);
 void		draw_circle(t_env *env, t_circle circle, int lev, int color);
 
 void		draw(t_env *env);
-
-t_fract		get_mandel();
-
-t_fract		get_julia();
-
-t_fract		get_ship();
-
-t_fract		get_tricorn();
-
-t_fract		get_apoll();
-
-t_fract		get_tree();
-
-t_fract		get_cantor();
-
-t_fract		get_serp();
-
-void		fill_mandel(t_env *env);
-
-void		fill_julia(t_env *env);
-
-void		fill_ship(t_env *env);
-
-void		fill_tricorn(t_env *env);
 
 void		fill_apoll(t_env *env);
 

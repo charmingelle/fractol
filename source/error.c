@@ -1,4 +1,4 @@
-#include "../includes/header.h"
+#include "header.h"
 
 int show_usage_error()
 {
@@ -12,8 +12,10 @@ int	show_kernel_error()
 	return (1);
 }
 
-int	show_set_param_error()
+int	show_set_param_error(char *param)
 {
-	ft_putstr_fd("Can't set kernel parameter\n", 2);
+	ft_putstr_fd("Can't set kernel parameter ", 2);
+	ft_putstr_fd(param, 2);
+	ft_putstr_fd("\n", 2);
 	return (1);
 }

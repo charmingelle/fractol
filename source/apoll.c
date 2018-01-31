@@ -1,6 +1,6 @@
-#include "../includes/header.h"
+#include "header.h"
 
-t_circle	get_circle(double center_x, double center_y, double rad)
+static t_circle	get_circle(double center_x, double center_y, double rad)
 {
 	t_circle	circle;
 
@@ -10,7 +10,7 @@ t_circle	get_circle(double center_x, double center_y, double rad)
 	return (circle);
 }
 
-t_2point	get_far_center(t_circle c0, t_circle c1, t_circle container,
+static t_2point	get_far_center(t_circle c0, t_circle c1, t_circle outer,
 	double small_rad)
 {
 	t_2point	first;
@@ -32,12 +32,12 @@ t_2point	get_far_center(t_circle c0, t_circle c1, t_circle container,
 		/ d - h * (c1.center.y - c0.center.y) / d;
 	second.y = c0.center.y + a * (c1.center.y - c0.center.y)
 		/ d + h * (c1.center.x - c0.center.x) / d;
-	if (get_2dist(first, container.center) > get_2dist(second, container.center))
+	if (get_2dist(first, outer.center) > get_2dist(second, outer.center))
 		return (first);
 	return (second);
 }
 
-t_2point	get_close_center(t_circle c0, t_circle c1, t_circle container,
+static t_2point	get_close_center(t_circle c0, t_circle c1, t_circle outer,
 	double small_rad)
 {
 	t_2point	first;
@@ -59,12 +59,12 @@ t_2point	get_close_center(t_circle c0, t_circle c1, t_circle container,
 		/ d - h * (c1.center.y - c0.center.y) / d;
 	second.y = c0.center.y + a * (c1.center.y - c0.center.y)
 		/ d + h * (c1.center.x - c0.center.x) / d;
-	if (get_2dist(first, container.center) < get_2dist(second, container.center))
+	if (get_2dist(first, outer.center) < get_2dist(second, outer.center))
 		return (first);
 	return (second);
 }
 
-t_2point	get_outer_center(t_2point a, t_2point b, t_2point c)
+static t_2point	get_outer_center(t_2point a, t_2point b, t_2point c)
 {
 	t_2point	center;
 	double		s1;
@@ -79,7 +79,7 @@ t_2point	get_outer_center(t_2point a, t_2point b, t_2point c)
 	return (center);
 }
 
-t_circle	get_outer_circle(t_circle c0, t_circle c1, t_circle c2)
+static t_circle	get_outer_circle(t_circle c0, t_circle c1, t_circle c2)
 {
 	double		a;
 	double		b;
@@ -94,7 +94,7 @@ t_circle	get_outer_circle(t_circle c0, t_circle c1, t_circle c2)
 	return (apoll);
 }
 
-t_circle	get_apoll_all(t_circle c0, t_circle c1, t_circle c2)
+static t_circle	get_apoll_all(t_circle c0, t_circle c1, t_circle c2)
 {
 	double		a;
 	double		b;
@@ -109,7 +109,7 @@ t_circle	get_apoll_all(t_circle c0, t_circle c1, t_circle c2)
 	return (apoll);
 }
 
-void	get_circle_outside_all(t_env *env, int lev, t_circle c[3])
+static void	get_circle_outside_all(t_env *env, int lev, t_circle c[3])
 {
 	t_circle	new;
 
@@ -125,7 +125,7 @@ void	get_circle_outside_all(t_env *env, int lev, t_circle c[3])
 	}
 }
 
-t_circle	get_apoll_two(t_circle c0, t_circle c1, t_circle c2)
+static t_circle	get_apoll_two(t_circle c0, t_circle c1, t_circle c2)
 {
 	double		a;
 	double		b;
@@ -140,7 +140,7 @@ t_circle	get_apoll_two(t_circle c0, t_circle c1, t_circle c2)
 	return (apoll);
 }
 
-void	get_circle_outside_two(t_env *env, int lev, t_circle c[3])
+static void	get_circle_outside_two(t_env *env, int lev, t_circle c[3])
 {
 	t_circle	new;
 

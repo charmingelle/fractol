@@ -1,23 +1,17 @@
-#include "../includes/header.h"
-
-inline static t_point	get_moved_point(t_point point, double x_shift,
-										double y_shift, double z_shift)
-{
-	return ((t_point){point.x + x_shift, point.y + y_shift, point.z + z_shift});
-}
+#include "header.h"
 
 static t_cube			get_cube(t_point start, int len)
 {
 	t_cube	cube;
 
 	cube.front_a = start;
-	cube.front_b = get_moved_point(start, len - 1, 0, 0);
-	cube.front_c = get_moved_point(start, len - 1, len - 1, 0);
-	cube.front_d = get_moved_point(start, 0, len - 1, 0);
-	cube.back_a = get_moved_point(start, 0, 0, len - 1);
-	cube.back_b = get_moved_point(start, len - 1, 0, len - 1);
-	cube.back_c = get_moved_point(start, len - 1, len - 1, len - 1);
-	cube.back_d = get_moved_point(start, 0, len - 1, len - 1);
+	cube.front_b = GMP(start, len - 1, 0, 0);
+	cube.front_c = GMP(start, len - 1, len - 1, 0);
+	cube.front_d = GMP(start, 0, len - 1, 0);
+	cube.back_a = GMP(start, 0, 0, len - 1);
+	cube.back_b = GMP(start, len - 1, 0, len - 1);
+	cube.back_c = GMP(start, len - 1, len - 1, len - 1);
+	cube.back_d = GMP(start, 0, len - 1, len - 1);
 	return (cube);
 }
 
@@ -28,19 +22,19 @@ static void				cantor_recur(t_env *env, t_cube cube, int len, int step)
 	{
 		cantor_recur(env, get_cube(cube.front_a, len),
 									len, step + 1);
-		cantor_recur(env, get_cube(get_moved_point(cube.front_b, -len + 1,
+		cantor_recur(env, get_cube(GMP(cube.front_b, -len + 1,
 									0, 0), len), len, step + 1);
-		cantor_recur(env, get_cube(get_moved_point(cube.front_c, -len + 1,
+		cantor_recur(env, get_cube(GMP(cube.front_c, -len + 1,
 									-len + 1, 0), len), len, step + 1);
-		cantor_recur(env, get_cube(get_moved_point(cube.front_d, 0, -len + 1,
+		cantor_recur(env, get_cube(GMP(cube.front_d, 0, -len + 1,
 									0), len), len, step + 1);
-		cantor_recur(env, get_cube(get_moved_point(cube.back_a, 0, 0,
+		cantor_recur(env, get_cube(GMP(cube.back_a, 0, 0,
 									-len + 1), len), len, step + 1);
-		cantor_recur(env, get_cube(get_moved_point(cube.back_b, -len + 1, 0,
+		cantor_recur(env, get_cube(GMP(cube.back_b, -len + 1, 0,
 									-len + 1), len), len, step + 1);
-		cantor_recur(env, get_cube(get_moved_point(cube.back_c, -len + 1,
+		cantor_recur(env, get_cube(GMP(cube.back_c, -len + 1,
 									-len + 1, -len + 1), len), len, step + 1);
-		cantor_recur(env, get_cube(get_moved_point(cube.back_d, 0, -len + 1,
+		cantor_recur(env, get_cube(GMP(cube.back_d, 0, -len + 1,
 									-len + 1), len), len, step + 1);
 	}
 	else
