@@ -132,6 +132,8 @@ static void	scroll_down_handler(t_env *env, int x, int y)
 {
 	int	changed;
 
+	x = 0;
+	y = 0;
 	changed = 0;
 	if ((env->fract.number == MANDEL || env->fract.number == TRICORN || env->fract.number == SHIP) && (changed = 1))
 		env->fract.scale += env->fract.scale / SCALE_COEFFICIENT;

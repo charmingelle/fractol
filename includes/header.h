@@ -175,7 +175,7 @@ void		draw_parallelogram(t_env *env, t_point a[2], t_point b[2], int color);
 
 void		draw_cube(t_env *env, t_cube cube);
 
-void		draw_circle(t_env *env, t_circle circle, int lev, int color);
+void		draw_circle(t_env *env, t_circle circle, int color);
 
 void		draw(t_env *env);
 

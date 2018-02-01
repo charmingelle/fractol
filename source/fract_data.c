@@ -118,5 +118,6 @@ t_fract	get_fract_data(int number)
 		return (get_cantor());
 	if (number == SERP)
 		return (get_serp());
+	fract.number = -1;
 	return (fract);
 }

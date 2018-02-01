@@ -116,7 +116,7 @@ static void	get_circle_outside_all(t_env *env, int lev, t_circle c[3])
 	new = get_apoll_all(c[0], c[1], c[2]);
 	if (new.rad <= 1)
 		return ;
-	draw_circle(env, new, lev, get_geom_palette_color(lev));
+	draw_circle(env, new, get_geom_palette_color(lev));
 	if (lev++ < env->fract.lev)
 	{
 		get_circle_outside_all(env, lev, (t_circle[3]){c[0], c[1], new});
@@ -147,7 +147,7 @@ static void	get_circle_outside_two(t_env *env, int lev, t_circle c[3])
 	new = get_apoll_two(c[0], c[1], c[2]);
 	if (new.rad <= 1)
 		return ;
-	draw_circle(env, new, lev, get_geom_palette_color(lev));
+	draw_circle(env, new, get_geom_palette_color(lev));
 	if (lev++ < env->fract.lev)
 	{
 		get_circle_outside_two(env, lev, (t_circle[3]){new, c[0], c[2]});
@@ -169,12 +169,12 @@ void		fill_apoll(t_env *env)
 	c1 = get_circle(WIDTH / 2 - rad, rad + rad * sqrt(3), rad);
 	c2 = get_circle(WIDTH / 2 + rad, rad + rad * sqrt(3), rad);
 	big = get_outer_circle(c0, c1, c2);
-	draw_circle(env, big, 0, get_geom_palette_color(0));
+	draw_circle(env, big, get_geom_palette_color(0));
 	if (env->fract.lev > 0)
 	{
-		draw_circle(env, c0, 1, get_geom_palette_color(1));
-		draw_circle(env, c1, 1, get_geom_palette_color(1));
-		draw_circle(env, c2, 1, get_geom_palette_color(1));
+		draw_circle(env, c0, get_geom_palette_color(1));
+		draw_circle(env, c1, get_geom_palette_color(1));
+		draw_circle(env, c2, get_geom_palette_color(1));
 	}
 	if (env->fract.lev > 1)
 	{

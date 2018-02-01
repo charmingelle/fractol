@@ -2,7 +2,7 @@ NAME		=	fractol
 
 CC			=	gcc
 
-CFLAGS		=	
+CFLAGS		=	-Wall -Wextra -Werror
 
 INCFLAGS	=	$(addprefix -I, includes libft minilibx_macos)
 

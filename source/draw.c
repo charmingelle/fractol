@@ -85,7 +85,7 @@ void	draw_2seg(t_env *env, t_2point start, t_2point end, int color)
 	}
 }
 
-void	draw_circle(t_env *env, t_circle circle, int lev, int color)
+void	draw_circle(t_env *env, t_circle circle, int color)
 {
 	t_2point	cur;
 	t_2point	prev;
