@@ -135,7 +135,7 @@ typedef struct	s_env
 	int			ang_y;
 	int			ang_z;
 	double		z_buff[WIDTH * HEIGHT];
-	int			juls;
+	int			juls_dance;
 	t_cl		cl;
 }				t_env;
 

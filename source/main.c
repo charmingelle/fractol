@@ -43,10 +43,10 @@ static t_env	*get_env(void *mlx, int *wind_amount, int number)
 	env->image = mlx_new_image(env->mlx, WIDTH, HEIGHT);
 	env->image_data = (int *)mlx_get_data_addr(env->image, &env->bits_per_pixel, &env->line_size, &env->endian);
 	env->fract = get_fract_data(number);
-	env->ang_x = 0;
-	env->ang_y = 0;
+	env->ang_x = 205;
+	env->ang_y = 10;
 	env->ang_z = 0;
-	env->juls = 0;
+	env->juls_dance = 0;
 	env->cl = get_cl(env);
 	return (env);
 }

@@ -2,10 +2,10 @@
 
 static void	julia_special_handler(t_env *env)
 {
-	if (env->juls == 0)
-		env->juls = 1;
+	if (env->juls_dance == 0)
+		env->juls_dance = 1;
 	else
-		env->juls = 0;
+		env->juls_dance = 0;
 }
 
 static void	arrow_left_handler(t_env *env)
@@ -94,6 +94,7 @@ int		key_handler(int keycode, t_env *env)
 	keycode == S && rotatable && (rotated = 1) ? (env->ang_x = (env->ang_x + 5) % 360) : 0;
 	keycode == Q && rotatable && (rotated = 1) ? (env->ang_z = (env->ang_z + 5) % 360) : 0;
 	keycode == E && rotatable && (rotated = 1) ? (env->ang_z = (env->ang_z - 5) % 360) : 0;
+	printf("x = %d, y = %d, z = %d\n", env->ang_x, env->ang_y, env->ang_z);
 	rotatable && rotated ? draw(env) : 0;
 	keycode == ARROW_LEFT ? arrow_left_handler(env) : 0;
 	keycode == ARROW_RIGHT ? arrow_right_handler(env) : 0;
@@ -153,7 +154,7 @@ int		mouse_handler(int button, int x, int y, t_env *env)
 
 int		mouse_move_handler(int x, int y, t_env *env)
 {
-	if (env->fract.number == JULIA && env->juls)
+	if (env->fract.number == JULIA && env->juls_dance)
 	{
 		env->fract.shift.x = -1.4 * x / WIDTH;
 		env->fract.shift.y = 0.5403 * y / HEIGHT;
