@@ -1,111 +1,117 @@
 #include "header.h"
 
-static t_fract	get_mandel()
+static t_ft	get_mandel(void)
 {
-	t_fract	fract;
+	t_ft	ft;
 
-	fract.number = MANDEL;
-	fract.scale = 0.005;
-	fract.shift.x = 0;
-	fract.shift.y = 0;
-	fract.man = "LEFT, RIGHT, UP, DOWN - move     SCROLL - change scale";
-	fract.file = "./cl/mandel.cl";
-	return (fract);
+	ft.number = MANDEL;
+	ft.scale = 0.005;
+	ft.shift.x = 0;
+	ft.shift.y = 0;
+	ft.man = "LEFT, RIGHT, UP, DOWN - move     SCROLL - change scale";
+	ft.file = "./cl/mandel.cl";
+	return (ft);
 }
 
-static t_fract	get_julia()
+static t_ft	get_julia(void)
 {
-	t_fract	fract;
+	t_ft	ft;
 
-	fract.number = JULIA;
-	fract.scale = 1;
-	fract.shift.x = -0.7;
-	fract.shift.y = 0.27015;
-	fract.pivot.x = 0.0;
-	fract.pivot.y = 0.0;
-	fract.man = "LEFT, RIGHT, UP, DOWN - move     SCROLL - change scale     J - Julia dancing mode :)";
-	fract.file = "./cl/julia.cl";
-	return (fract);
+	ft.number = JULIA;
+	ft.scale = 1;
+	ft.shift.x = -0.7;
+	ft.shift.y = 0.27015;
+	ft.pivot.x = 0.0;
+	ft.pivot.y = 0.0;
+	ft.man = "LEFT, RIGHT, UP, DOWN - move     \
+		SCROLL - change scale     \
+		J - Julia dancing mode :)";
+	ft.file = "./cl/julia.cl";
+	return (ft);
 }
 
-static t_fract	get_ship()
+static t_ft	get_ship(void)
 {
-	t_fract	fract;
+	t_ft	ft;
 
-	fract.number = SHIP;
-	fract.scale = 0.005;
-	fract.shift.x = 0;
-	fract.shift.y = 0;
-	fract.man = "LEFT, RIGHT, UP, DOWN - move     SCROLL - change scale";
-	fract.file = "./cl/ship.cl";
-	return (fract);
+	ft.number = SHIP;
+	ft.scale = 0.005;
+	ft.shift.x = 0;
+	ft.shift.y = 0;
+	ft.man = "LEFT, RIGHT, UP, DOWN - move     SCROLL - change scale";
+	ft.file = "./cl/ship.cl";
+	return (ft);
 }
 
-static t_fract	get_tricorn()
+static t_ft	get_tricorn(void)
 {
-	t_fract	fract;
+	t_ft	ft;
 
-	fract.number = TRICORN;
-	fract.scale = 0.005;
-	fract.shift.x = 0;
-	fract.shift.y = 0;
-	fract.pivot.x = 0.0;
-	fract.pivot.y = 0.0;
-	fract.man = "LEFT, RIGHT, UP, DOWN - move     SCROLL - change scale";
-	fract.file = "./cl/tricorn.cl";
-	return (fract);
+	ft.number = TRICORN;
+	ft.scale = 0.005;
+	ft.shift.x = 0;
+	ft.shift.y = 0;
+	ft.pivot.x = 0.0;
+	ft.pivot.y = 0.0;
+	ft.man = "LEFT, RIGHT, UP, DOWN - move     SCROLL - change scale";
+	ft.file = "./cl/tricorn.cl";
+	return (ft);
 }
 
-static t_fract	get_apoll()
+static t_ft	get_apoll(void)
 {
-	t_fract	fract;
+	t_ft	ft;
 
-	fract.number = APOLL;
-	fract.scale = 1.0;
-	fract.shift.x = 0.0;
-	fract.shift.y = 0.0;
-	fract.lev = 0;
-	fract.man = "PLUS, MINUS - change number of circles     LEFT, RIGHT, UP, DOWN - move";
-	return (fract);
+	ft.number = APOLL;
+	ft.scale = 1.0;
+	ft.shift.x = 0.0;
+	ft.shift.y = 0.0;
+	ft.lev = 0;
+	ft.man = "PLUS, MINUS - change number of circles     \
+		LEFT, RIGHT, UP, DOWN - move";
+	return (ft);
 }
 
-static t_fract	get_tree()
+static t_ft	get_tree(void)
 {
-	t_fract	fract;
+	t_ft	ft;
 
-	fract.number = TREE;
-	fract.lev = 0;
-	fract.tilte = 0;
-	fract.closeness = 45;
-	fract.man = "SCROLL - change number of branches     LEFT, RIGHT - bend branches     UP, DOWN - change branch closeness";
-	return (fract);
+	ft.number = TREE;
+	ft.lev = 0;
+	ft.tilte = 0;
+	ft.close = 45;
+	ft.man = "SCROLL - change number of branches     \
+		LEFT, RIGHT - bend branches     \
+		UP, DOWN - change branch close";
+	return (ft);
 }
 
-static t_fract	get_cantor()
+static t_ft	get_cantor(void)
 {
-	t_fract	fract;
+	t_ft	ft;
 
-	fract.number = CANTOR;
-	fract.lev = 0;
-	fract.len = MIN(WIDTH, HEIGHT) / 2;
-	fract.man = "UP, DOWN - change number of cubes     W, A, S, D, Q, E - rotate";
-	return (fract);
+	ft.number = CANTOR;
+	ft.lev = 0;
+	ft.len = MIN(WIDTH, HEIGHT) / 2;
+	ft.man = "UP, DOWN - change number of cubes     W, A, S, D, Q, E - rotate";
+	return (ft);
 }
 
-static t_fract	get_serp()
+static t_ft	get_serp(void)
 {
-	t_fract	fract;
+	t_ft	ft;
 
-	fract.number = SERP;
-	fract.lev = 0;
-	fract.len = MIN(WIDTH, HEIGHT) / 1.3;
-	fract.man = "UP, DOWN - change number of pyramids     W, A, S, D, Q, E - rotate";
-	return (fract);
+	ft.number = SERP;
+	ft.lev = 0;
+	ft.len = MIN(WIDTH, HEIGHT) / 1.3;
+	ft.man = "UP, DOWN - change number of pyramids     \
+		W, A, S, D, Q, E - rotate";
+	return (ft);
 }
 
-t_fract	get_fract_data(int number)
+t_ft	get_ft_data(int number)
 {
-	t_fract	fract;
+	t_ft	ft;
 
 	if (number == MANDEL)
 		return (get_mandel());
@@ -123,6 +129,6 @@ t_fract	get_fract_data(int number)
 		return (get_cantor());
 	if (number == SERP)
 		return (get_serp());
-	fract.number = -1;
-	return (fract);
+	ft.number = -1;
+	return (ft);
 }

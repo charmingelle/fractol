@@ -1,12 +1,15 @@
 #include "header.h"
 
-int show_usage_error()
+int	show_usage_error(void)
 {
-	ft_putstr_fd("usage: ./fractol number\n1 - Mandelbrot\n2 - Julia\n3 - Burning Ship\n4 - Tricorn\n5 - Apollonian Gasket\n6 - Pythagoras Tree\n7 - Cantor Dust 3D\n8 - Sierpinski Pyramid\n", 2);
+	ft_putstr_fd("usage: ./ftol number\n1 - Mandelbrot\n2 - Julia\n", 2);
+	ft_putstr_fd("3 - Burning Ship\n4 - Tricorn\n5 - Apollonian Gasket\n", 2);
+	ft_putstr_fd("6 - Pythagoras Tree\n7 - Cantor Dust 3D\n", 2);
+	ft_putstr_fd("8 - Sierpinski Pyramid\n", 2);
 	return (1);
 }
 
-int	show_kernel_error()
+int	show_kernel_error(void)
 {
 	ft_putstr_fd("Failed to load kernel\n", 2);
 	return (1);

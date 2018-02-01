@@ -1,6 +1,6 @@
 #include "../includes/header.h"
 
-double	degree_to_rad(double degree)
+double	dg_to_rd(double degree)
 {
 	return ((degree * M_PI) / 180.0);
 }
@@ -12,7 +12,8 @@ double	get_2dist(t_2point a, t_2point b)
 
 double	get_dist(t_point a, t_point b)
 {
-	return (sqrt((a.x - b.x) * (a.x - b.x) + (a.y - b.y) * (a.y - b.y) + (a.z - b.z) * (a.z - b.z)));
+	return (sqrt((a.x - b.x) * (a.x - b.x)
+		+ (a.y - b.y) * (a.y - b.y) + (a.z - b.z) * (a.z - b.z)));
 }
 
 void	clear_z_buffer(t_env *env)

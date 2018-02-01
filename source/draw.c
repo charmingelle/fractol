@@ -97,8 +97,8 @@ void	draw_circle(t_env *env, t_circle circle, int color)
 	phi = 0.0;
 	while (phi <= 360.0)
 	{
-		x = ROUND(circle.rad * cos(degree_to_rad(phi)) + circle.center.x);
-		y = ROUND(circle.rad * sin(degree_to_rad(phi)) + circle.center.y);
+		x = ROUND(circle.rad * cos(dg_to_rd(phi)) + circle.center.x);
+		y = ROUND(circle.rad * sin(dg_to_rd(phi)) + circle.center.y);
 		if (x >= 0 && x < WIDTH && y >= 0 && y < HEIGHT)
 			env->image_data[y * WIDTH + x] = color;
 		phi += step;

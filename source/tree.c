@@ -1,31 +1,34 @@
 #include "header.h"
 
-static void tree_recur(t_env *env, t_2point start, t_2point dir, double len, int lev)
+static void	tree_recur(t_env *env, t_2point params[2], double len, int lev)
 {
-	t_2point	end;
-	t_2point	new_dir;
+	t_2point	new_params[2];
 
 	if (lev < 0 || len < 1)
 		return ;
-	end.x = start.x + len * dir.x;
-	end.y = start.y + len * dir.y;
-	draw_2seg(env, start, end, get_mid_color(0x00FF00, 0x8B4513, env->fract.lev + 1, lev));
-	new_dir.x = cos(degree_to_rad(env->fract.tilte - env->fract.closeness)) * dir.x - sin(degree_to_rad(env->fract.tilte - env->fract.closeness)) * dir.y;
-	new_dir.y = sin(degree_to_rad(env->fract.tilte - env->fract.closeness)) * dir.x + cos(degree_to_rad(env->fract.tilte - env->fract.closeness)) * dir.y;
-	tree_recur(env, end, new_dir, len / 1.4, lev - 1);
-	new_dir.x = cos(degree_to_rad(env->fract.tilte + env->fract.closeness)) * dir.x - sin(degree_to_rad(env->fract.tilte + env->fract.closeness)) * dir.y;
-	new_dir.y = sin(degree_to_rad(env->fract.tilte + env->fract.closeness)) * dir.x + cos(degree_to_rad(env->fract.tilte + env->fract.closeness)) * dir.y;
-	tree_recur(env, end, new_dir, len / 1.4, lev - 1);
+	new_params[0].x = params[0].x + len * params[1].x;
+	new_params[0].y = params[0].y + len * params[1].y;
+	draw_2seg(env, params[0], new_params[0], get_mid_color(0x00FF00, 0x8B4513,
+		env->ft.lev + 1, lev));
+	new_params[1].x = cos(dg_to_rd(env->ft.tilte - env->ft.close)) * params[1].x
+		- sin(dg_to_rd(env->ft.tilte - env->ft.close)) * params[1].y;
+	new_params[1].y = sin(dg_to_rd(env->ft.tilte - env->ft.close)) * params[1].x
+		+ cos(dg_to_rd(env->ft.tilte - env->ft.close)) * params[1].y;
+	tree_recur(env, new_params, len / 1.4, lev - 1);
+	new_params[1].x = cos(dg_to_rd(env->ft.tilte + env->ft.close)) * params[1].x
+		- sin(dg_to_rd(env->ft.tilte + env->ft.close)) * params[1].y;
+	new_params[1].y = sin(dg_to_rd(env->ft.tilte + env->ft.close)) * params[1].x
+		+ cos(dg_to_rd(env->ft.tilte + env->ft.close)) * params[1].y;
+	tree_recur(env, new_params, len / 1.4, lev - 1);
 }
 
-void	fill_tree(t_env *env)
+void		fill_tree(t_env *env)
 {
-	t_2point	start;
-	t_2point	dir;
+	t_2point	params[2];
 
-	start.x = WIDTH / 2;
-	start.y = HEIGHT - 1;
-	dir.x = 0;
-	dir.y = -1;
-	tree_recur(env, start, dir, HEIGHT / 4, env->fract.lev);
+	params[0].x = WIDTH / 2;
+	params[0].y = HEIGHT - 1;
+	params[1].x = 0;
+	params[1].y = -1;
+	tree_recur(env, params, HEIGHT / 4, env->ft.lev);
 }

@@ -39,7 +39,7 @@ static void		serp_recur(t_env *env, t_pyr pyr, int lev)
 	mids[3] = get_middle(pyr.a, pyr.b);
 	mids[4] = get_middle(pyr.b, pyr.c);
 	mids[5] = get_middle(pyr.c, pyr.a);
-	if (lev < env->fract.lev)
+	if (lev < env->ft.lev)
 	{
 		serp_recur(env, get_pyr(pyr.top, mids[0], mids[1], mids[2]), lev + 1);
 		serp_recur(env, get_pyr(mids[0], pyr.a, mids[3], mids[5]), lev + 1);
@@ -55,11 +55,11 @@ void			fill_serp(t_env *env)
 	int		step;
 	double	part;
 
-	part = sqrt(3) * env->fract.len / 6;
+	part = sqrt(3) * env->ft.len / 6;
 	step = 0;
 	serp_recur(env, get_pyr((t_point){0, -2 * part, 0},
-		(t_point){-env->fract.len / 2, part, part},
-		(t_point){env->fract.len / 2, part, part},
+		(t_point){-env->ft.len / 2, part, part},
+		(t_point){env->ft.len / 2, part, part},
 		(t_point){0, part, -2 * part}),
 		step);
 }

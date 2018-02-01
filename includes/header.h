@@ -90,7 +90,7 @@ typedef struct	s_cude
 	t_point	back_d;
 }				t_cube;
 
-typedef struct	s_fract
+typedef struct	s_ft
 {
 	int			number;
 	double		scale;
@@ -99,10 +99,10 @@ typedef struct	s_fract
 	int			lev;
 	int			len;
 	int			tilte;
-	int			closeness;
+	int			close;
 	char		*man;
 	char		*file;
-}				t_fract;
+}				t_ft;
 
 typedef struct	s_cl
 {
@@ -130,7 +130,7 @@ typedef struct	s_env
 	int			bits_per_pixel;
 	int			line_size;
 	int			endian;
-	t_fract		fract;
+	t_ft		ft;
 	void		*image;
 	int			*image_data;
 	int			ang_x;
@@ -141,11 +141,11 @@ typedef struct	s_env
 	t_cl		cl;
 }				t_env;
 
-int			show_usage_error();
+int			show_usage_error(void);
 
-int			show_kernel_error();
+int			show_kernel_error(void);
 
-int			show_set_param_error();
+int			show_set_param_error(char *param);
 
 int			key_handler(int keycode, t_env *env);
 
@@ -159,7 +159,7 @@ int			get_mid_color(int start, int end, double to_pass, double passed);
 
 t_point		get_modified_point(t_env *env, t_point point);
 
-double		degree_to_rad(double degree);
+double		dg_to_rd(double degree);
 
 void		clear_z_buffer(t_env *env);
 
@@ -189,9 +189,9 @@ void		fill_cantor(t_env *env);
 
 void		fill_serp(t_env *env);
 
-t_fract		get_fract_data(int number);
+t_ft		get_ft_data(int number);
 
-void		fill_fract_image(t_env *env);
+void		fill_ft_image(t_env *env);
 
 double		ft_lerp(double a, double b, double t);
 

@@ -18,7 +18,7 @@ static t_cube			get_cube(t_point start, int len)
 static void				cantor_recur(t_env *env, t_cube cube, int len, int step)
 {
 	len /= 3;
-	if (step < env->fract.lev && len > 1)
+	if (step < env->ft.lev && len > 1)
 	{
 		cantor_recur(env, get_cube(cube.front_a, len),
 									len, step + 1);
@@ -46,9 +46,9 @@ void					fill_cantor(t_env *env)
 	t_cube	cube;
 	t_point	start;
 
-	start.x = -env->fract.len / 2;
-	start.y = -env->fract.len / 2;
-	start.z = -env->fract.len / 2;
-	cube = get_cube(start, env->fract.len);
-	cantor_recur(env, cube, env->fract.len, 0);
+	start.x = -env->ft.len / 2;
+	start.y = -env->ft.len / 2;
+	start.z = -env->ft.len / 2;
+	cube = get_cube(start, env->ft.len);
+	cantor_recur(env, cube, env->ft.len, 0);
 }
