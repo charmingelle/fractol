@@ -1,10 +1,11 @@
-- Add flags to Makefile
-- Simplify the code
-- Double check Makefile
-- Get rid of unnecessary functions in header, make other functions static
+  Add flags to Makefile
+  Simplify the code
+  Double check Makefile
+  Get rid of unnecessary functions in header, make other functions static
+  Norminette
++ Create close event for each window separately
 + Fix kernal bug with Julia
 + Fix Tree black dot bug
-- Norminette
 + Edit make re command
 + Stop increasing the lev for Apoll, Serp and Cantor when there is nothing to draw
 + Get rid of complex struct

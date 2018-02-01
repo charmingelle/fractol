@@ -70,6 +70,15 @@ static void	arrow_down_handler(t_env *env)
 	changed ? draw(env) : 0;
 }
 
+int		close_wind_handler(t_env *env)
+{
+	mlx_destroy_window(env->mlx, env->wind);
+	*(env->wind_amount) -= 1;
+	if (*env->wind_amount == 0)
+		exit(0);
+	return (0);
+}
+
 int		key_handler(int keycode, t_env *env)
 {
 	int	rotatable;
@@ -77,7 +86,7 @@ int		key_handler(int keycode, t_env *env)
 
 	rotatable = (env->fract.number == CANTOR || env->fract.number == SERP);
 	rotated = 0;
-	keycode == ESC ? exit(0) : 0;
+	keycode == ESC ? close_wind_handler(env) : 0;
 	keycode == J && env->fract.number == JULIA ? julia_special_handler(env) : 0;
 	keycode == A && rotatable && (rotated = 1) ? (env->ang_y = (env->ang_y + 5) % 360) : 0;
 	keycode == D && rotatable && (rotated = 1) ? (env->ang_y = (env->ang_y - 5) % 360) : 0;

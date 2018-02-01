@@ -29,12 +29,13 @@ static t_cl	get_cl(t_env *env)
 	return (cl);
 }
 
-static t_env	*get_env(void *mlx, int number)
+static t_env	*get_env(void *mlx, int *wind_amount, int number)
 {
 	t_env	*env;
 
 	env = (t_env *)malloc(sizeof(t_env));
 	env->mlx = mlx;
+	env->wind_amount = wind_amount;
 	env->bits_per_pixel = 32;
 	env->line_size = WIDTH * 4;
 	env->endian = 0;
@@ -50,16 +51,15 @@ static t_env	*get_env(void *mlx, int number)
 	return (env);
 }
 
-static void	show_fract_wind(void *mlx, char *arg)
+static void	show_fract_wind(void *mlx, int *wind_amount, char *arg)
 {
 	t_env	*env;
 
-	env = get_env(mlx, ft_atoi(arg));
+	env = get_env(mlx, wind_amount, ft_atoi(arg));
 	draw(env);
 	mlx_mouse_hook(env->wind, mouse_handler, env);
 	mlx_hook(env->wind, KEY_DOWN, 0, key_handler, env);
-	mlx_hook(env->wind, CROSS_CLICK, 0, (int (*)())&exit, env);
-	mlx_hook(env->wind, CROSS_CLICK, 0, mlx_destroy_window, env);
+	mlx_hook(env->wind, CROSS_CLICK, 0, close_wind_handler, env);
 	mlx_hook(env->wind, MOUSE_MOVE, 0, mouse_move_handler, env);
 }
 
@@ -76,15 +76,17 @@ static void	validate_fract(int argc, char **argv)
 int 	main(int argc, char **argv)
 {
 	void	*mlx;
+	int		wind_amount;
 	int		i;
 
 	if (argc > 1)
 	{
 		validate_fract(argc, argv);
 		mlx = mlx_init();
+		wind_amount = argc - 1;
 		i = 0;
 		while (++i < argc)
-			show_fract_wind(mlx, argv[i]);
+			show_fract_wind(mlx, &wind_amount, argv[i]);
 		mlx_loop(mlx);
 	}
 	else

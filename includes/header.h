@@ -123,6 +123,7 @@ typedef struct	s_cl
 typedef struct	s_env
 {
 	void		*mlx;
+	int			*wind_amount;
 	void		*wind;
 	int			bits_per_pixel;
 	int			line_size;
@@ -149,6 +150,8 @@ int			key_handler(int keycode, t_env *env);
 int			mouse_handler(int button, int x, int y, t_env *env);
 
 int			mouse_move_handler(int x, int y, t_env *env);
+
+int			close_wind_handler(t_env *env);
 
 int			get_mid_color(int start, int end, double to_pass, double passed);
 
