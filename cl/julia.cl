@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   julia.cl                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: grevenko <grevenko@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/02/01 19:57:25 by grevenko          #+#    #+#             */
+/*   Updated: 2018/02/01 20:11:23 by grevenko         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 static int		get_palette_color(int i)
 {
 	int palette[] = {
@@ -26,7 +38,7 @@ static int		get_palette_color(int i)
 	return (palette[i % 139]);
 }
 
-__kernel void hello(__global int* image_data, int width, int height, double scale, double shift_x, double shift_y, double pivot_x, double pivot_y)
+__kernel void	hello(__global int* image_data, int width, int height, double scale, double shift_x, double shift_y, double pivot_x, double pivot_y)
 {
 	int		x = get_global_id(0);
 	int		y = get_global_id(1);
@@ -38,7 +50,7 @@ __kernel void hello(__global int* image_data, int width, int height, double scal
 	while ((z_x * z_x + z_y * z_y) < 4 && ++i < 138)
 	{
 		temp = z_x * z_x - z_y * z_y + shift_x;
-		z_y = 2 * z_x * z_y + shift_y;
+		z_y = 2.0 * z_x * z_y + shift_y;
 		z_x = temp;
 	}
 	image_data[y * width + x] = get_palette_color(i);

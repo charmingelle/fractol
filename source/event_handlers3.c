@@ -1,36 +1,50 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error.c                                            :+:      :+:    :+:   */
+/*   event_handlers3.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: grevenko <grevenko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/02/01 19:56:17 by grevenko          #+#    #+#             */
+/*   Created: 2018/02/01 19:56:28 by grevenko          #+#    #+#             */
 /*   Updated: 2018/02/01 19:56:54 by grevenko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-int	show_usage_error(void)
+void	julia_special_handler(t_env *env)
 {
-	ft_putstr_fd("usage: ./ftol number\n1 - Mandelbrot\n2 - Julia\n", 2);
-	ft_putstr_fd("3 - Burning Ship\n4 - Tricorn\n5 - Apollonian Gasket\n", 2);
-	ft_putstr_fd("6 - Pythagoras Tree\n7 - Cantor Dust 3D\n", 2);
-	ft_putstr_fd("8 - Sierpinski Pyramid\n", 2);
-	return (1);
+	if (env->juls_dance == 0)
+		env->juls_dance = 1;
+	else
+		env->juls_dance = 0;
 }
 
-int	show_kernel_error(void)
+void	plus_handler(t_env *env)
 {
-	ft_putstr_fd("Failed to load kernel\n", 2);
-	return (1);
+	if (env->ft.number == APOLL)
+	{
+		env->ft.lev += 1;
+		env->ft.lev > 10 ? (env->ft.scale += 0.1) : 0;
+		draw(env);
+	}
 }
 
-int	show_set_param_error(char *param)
+void	minus_handler(t_env *env)
 {
-	ft_putstr_fd("Can't set kernel parameter ", 2);
-	ft_putstr_fd(param, 2);
-	ft_putstr_fd("\n", 2);
-	return (1);
+	if (env->ft.number == APOLL)
+	{
+		env->ft.lev > 0 ? env->ft.lev -= 1 : 0;
+		env->ft.lev >= 10 ? (env->ft.scale -= 0.1) : 0;
+		draw(env);
+	}
+}
+
+int		close_wind_handler(t_env *env)
+{
+	mlx_destroy_window(env->mlx, env->wind);
+	*(env->wind_amount) -= 1;
+	if (*env->wind_amount == 0)
+		exit(0);
+	return (0);
 }

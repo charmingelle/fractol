@@ -1,8 +1,8 @@
   Remove todo
-  Simplify the code
-  Double check Makefile
-  Get rid of unnecessary functions in header, make other functions static
-+- Norminette
++ Simplify the code
++ Double check Makefile
++ Get rid of unnecessary functions in header, make other functions static
++ Norminette
 + Add the ability to change Apoll scale
 + Turn Cantor and Sers slightly to them to look better
 + Add flags to Makefile

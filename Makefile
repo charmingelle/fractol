@@ -1,3 +1,15 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: grevenko <grevenko@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2018/02/01 19:56:59 by grevenko          #+#    #+#              #
+#    Updated: 2018/02/01 19:57:00 by grevenko         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 NAME		=	fractol
 
 CC			=	gcc
@@ -10,7 +22,7 @@ SRCDIR		=	source
 
 INCDIR		=	includes
 
-SRC			=	apoll.c cantor.c color.c draw.c error.c event_handlers.c fill_fract_image.c fract_data.c main.c mutate.c serp.c tree.c utils.c
+SRC			=	apoll.c apoll2.c cantor.c color.c draw.c draw2.c error.c event_handlers.c event_handlers2.c event_handlers3.c fill_fract_image.c fract_data.c fract_data2.c main.c serp.c tree.c utils.c utils2.c
 
 HEADERS		=	$(addprefix $(INCDIR)/, header.h)
 

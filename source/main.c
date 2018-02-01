@@ -1,15 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: grevenko <grevenko@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/02/01 19:56:41 by grevenko          #+#    #+#             */
+/*   Updated: 2018/02/01 20:30:45 by grevenko         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "header.h"
 
-void	draw(t_env *env)
-{
-	ft_bzero(env->image_data, WIDTH * HEIGHT * 4);
-	ft_bzero(env->z_buff, WIDTH * HEIGHT * 8);
-	fill_ft_image(env);
-	mlx_put_image_to_window(env->mlx, env->wind, env->image, 0, 0);
-	mlx_string_put(env->mlx, env->wind, 10, 10, 0xFFFFFF, env->ft.man);
-}
-
-static t_cl	get_cl(t_env *env)
+static t_cl		get_cl(t_env *env)
 {
 	t_cl	cl;
 
@@ -19,15 +22,15 @@ static t_cl	get_cl(t_env *env)
 	cl.source_size = read(cl.fd, cl.source_str, MAX_SOURCE_SIZE);
 	close(cl.fd);
 	cl.ret = clGetPlatformIDs(1, &cl.platform_id, &cl.ret_num_platforms);
-	cl.ret = clGetDeviceIDs(cl.platform_id, CL_DEVICE_TYPE_GPU, 1,
+	cl.ret = clGetDeviceIDs(cl.platform_id, CL_DEVICE_TYPE_CPU, 1,
 		&cl.device_id, &cl.ret_num_devices);
 	cl.context = clCreateContext(NULL, 1, &cl.device_id, NULL, NULL, &cl.ret);
 	cl.command_queue = clCreateCommandQueue(cl.context, cl.device_id,
 		0, &cl.ret);
 	cl.memobj = clCreateBuffer(cl.context, CL_MEM_READ_WRITE,
-		MEM_SIZE * sizeof(char), NULL, &cl.ret);
+		WIDTH * HEIGHT * 4 * sizeof(char), NULL, &cl.ret);
 	cl.program = clCreateProgramWithSource(cl.context, 1,
-		(const char **)&cl.source_str, (const size_t *)&cl.source_size, &cl.ret);
+		(const char**)&cl.source_str, (const size_t*)&cl.source_size, &cl.ret);
 	cl.ret = clBuildProgram(cl.program, 1, &cl.device_id, NULL, NULL, NULL);
 	cl.kernel = clCreateKernel(cl.program, "hello", &cl.ret);
 	return (cl);
@@ -56,7 +59,7 @@ static t_env	*get_env(void *mlx, int *wind_amount, int number)
 	return (env);
 }
 
-static void	show_ft_wind(void *mlx, int *wind_amount, char *arg)
+static void		show_ft_wind(void *mlx, int *wind_amount, char *arg)
 {
 	t_env	*env;
 
@@ -68,17 +71,7 @@ static void	show_ft_wind(void *mlx, int *wind_amount, char *arg)
 	mlx_hook(env->wind, MOUSE_MOVE, 0, mouse_move_handler, env);
 }
 
-static void	validate_ft(int argc, char **argv)
-{
-	int	i;
-
-	i = 0;
-	while (++i < argc)
-		if (ft_atoi(argv[i]) < 1 || ft_atoi(argv[i]) > 8)
-			exit(show_usage_error());
-}
-
-int 	main(int argc, char **argv)
+int				main(int argc, char **argv)
 {
 	void	*mlx;
 	int		wind_amount;

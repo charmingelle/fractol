@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   fill_fract_image.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: grevenko <grevenko@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/02/01 19:56:32 by grevenko          #+#    #+#             */
+/*   Updated: 2018/02/01 20:20:26 by grevenko         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "header.h"
 
 static void	set_cl_args(t_env *env)
@@ -30,17 +42,17 @@ static void	fill_ft_image_with_cl(t_env *env)
 	set_cl_args(env);
 	env->cl.ret = clEnqueueNDRangeKernel(env->cl.command_queue, env->cl.kernel,
 		2, NULL, (size_t[3]){WIDTH, HEIGHT, 0}, NULL, 0, NULL, NULL);
-	env->cl.ret = clEnqueueReadBuffer(env->cl.command_queue, env->cl.memobj,
-		CL_TRUE, 0, MEM_SIZE * sizeof(char), env->image_data, 0, NULL, NULL);
+	env->cl.ret = clEnqueueReadBuffer(env->cl.command_queue, env->cl.memobj, 1,
+		0, WIDTH * HEIGHT * 4 * sizeof(char), env->image_data, 0, NULL, NULL);
 }
 
-void	fill_ft_image(t_env *env)
+void		fill_ft_image(t_env *env)
 {
-	env->ft.number == MANDEL? fill_ft_image_with_cl(env) : 0;
+	env->ft.number == MANDEL ? fill_ft_image_with_cl(env) : 0;
 	env->ft.number == JULIA ? fill_ft_image_with_cl(env) : 0;
 	env->ft.number == SHIP ? fill_ft_image_with_cl(env) : 0;
 	env->ft.number == TRICORN ? fill_ft_image_with_cl(env) : 0;
-	env->ft.number == APOLL? fill_apoll(env) : 0;
+	env->ft.number == APOLL ? fill_apoll(env) : 0;
 	env->ft.number == TREE ? fill_tree(env) : 0;
 	env->ft.number == CANTOR ? fill_cantor(env) : 0;
 	env->ft.number == SERP ? fill_serp(env) : 0;

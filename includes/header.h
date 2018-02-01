@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   header.h                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: grevenko <grevenko@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/02/01 19:57:07 by grevenko          #+#    #+#             */
+/*   Updated: 2018/02/01 20:41:24 by grevenko         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef HEADER_H
 # define HEADER_H
 
@@ -14,7 +26,6 @@
 # define MAX_SOURCE_SIZE 0x100000
 # define WIDTH 2560
 # define HEIGHT 1440
-# define MEM_SIZE WIDTH * HEIGHT * 4
 # define KEY_DOWN 2
 # define CROSS_CLICK 17
 # define MOUSE_MOVE 6
@@ -117,9 +128,9 @@ typedef struct	s_cl
 	cl_uint				ret_num_platforms;
 	cl_int				ret;
 	int					fd;
-	char 				*fileName;
-	char 				*source_str;
-	size_t 				source_size;
+	char				*file_name;
+	char				*source_str;
+	size_t				source_size;
 }				t_cl;
 
 typedef struct	s_env
@@ -141,58 +152,83 @@ typedef struct	s_env
 	t_cl		cl;
 }				t_env;
 
-int			show_usage_error(void);
+int				show_usage_error(void);
 
-int			show_kernel_error(void);
+int				show_kernel_error(void);
 
-int			show_set_param_error(char *param);
+int				show_set_param_error(char *param);
 
-int			key_handler(int keycode, t_env *env);
+int				mouse_handler(int button, int x, int y, t_env *env);
 
-int			mouse_handler(int button, int x, int y, t_env *env);
+int				mouse_move_handler(int x, int y, t_env *env);
 
-int			mouse_move_handler(int x, int y, t_env *env);
+int				key_handler(int keycode, t_env *env);
 
-int			close_wind_handler(t_env *env);
+void			julia_special_handler(t_env *env);
 
-int			get_mid_color(int start, int end, double to_pass, double passed);
+void			plus_handler(t_env *env);
 
-t_point		get_modified_point(t_env *env, t_point point);
+void			minus_handler(t_env *env);
 
-double		dg_to_rd(double degree);
+int				close_wind_handler(t_env *env);
 
-void		clear_z_buffer(t_env *env);
+int				get_mid_color(int start, int end, double to_pass,
+				double passed);
 
-int			get_geom_palette_color(int i);
+t_point			get_modified_point(t_env *env, t_point point);
 
-double		get_2dist(t_2point a, t_2point b);
+int				get_rainbow_color(int i);
 
-double		get_dist(t_point a, t_point b);
+double			get_2dist(t_2point a, t_2point b);
 
-void		draw_2seg(t_env *env, t_2point start, t_2point end, int lev);
+double			get_dist(t_point a, t_point b);
 
-void		draw_triang(t_env *env, t_point p[3], int color);
+t_ft			get_mandel(void);
 
-void		draw_parallelogram(t_env *env, t_point a[2], t_point b[2], int color);
+t_ft			get_julia(void);
 
-void		draw_cube(t_env *env, t_cube cube);
+t_ft			get_ship(void);
 
-void		draw_circle(t_env *env, t_circle circle, int color);
+t_ft			get_tricorn(void);
 
-void		draw(t_env *env);
+t_ft			get_ft_data(int number);
 
-void		fill_apoll(t_env *env);
+t_circle		get_circle(double center_x, double center_y, double rad);
 
-void		fill_tree(t_env *env);
+t_2point		get_far_center(t_circle c0, t_circle c1, t_circle outer,
+			double small_rad);
 
-void		fill_cantor(t_env *env);
+t_circle		get_outer_circle(t_circle c0, t_circle c1, t_circle c2);
 
-void		fill_serp(t_env *env);
+t_circle		get_apoll_all(t_circle c0, t_circle c1, t_circle c2);
 
-t_ft		get_ft_data(int number);
+void			draw_2seg(t_env *env, t_2point start, t_2point end, int lev);
 
-void		fill_ft_image(t_env *env);
+void			draw_parallelogram(t_env *env, t_point a[2], t_point b[2],
+			int color);
 
-double		ft_lerp(double a, double b, double t);
+void			draw_cube(t_env *env, t_cube cube);
+
+void			draw_circle(t_env *env, t_circle circle, int color);
+
+void			draw_triang(t_env *env, t_point p[3], int color);
+
+void			draw(t_env *env);
+
+void			fill_apoll(t_env *env);
+
+void			fill_tree(t_env *env);
+
+void			fill_cantor(t_env *env);
+
+void			fill_serp(t_env *env);
+
+void			fill_ft_image(t_env *env);
+
+double			dg_to_rd(double degree);
+
+double			ft_lerp(double a, double b, double t);
+
+void			validate_ft(int argc, char **argv);
 
 #endif

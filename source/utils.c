@@ -1,4 +1,16 @@
-#include "../includes/header.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: grevenko <grevenko@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/02/01 19:56:50 by grevenko          #+#    #+#             */
+/*   Updated: 2018/02/01 20:04:19 by grevenko         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "header.h"
 
 double	dg_to_rd(double degree)
 {
@@ -16,18 +28,7 @@ double	get_dist(t_point a, t_point b)
 		+ (a.y - b.y) * (a.y - b.y) + (a.z - b.z) * (a.z - b.z)));
 }
 
-void	clear_z_buffer(t_env *env)
-{
-	int	x;
-	int	y;
-
-	y = -1;
-	while (++y < HEIGHT && (x = -1))
-		while (++x < WIDTH)
-			env->z_buff[y * WIDTH + x] = 0;
-}
-
-int		get_geom_palette_color(int i)
+int		get_rainbow_color(int i)
 {
 	static int palette[] = {
 		0xFF0000,
@@ -40,9 +41,4 @@ int		get_geom_palette_color(int i)
 	};
 
 	return (palette[i % 7]);
-}
-
-double	ft_lerp(double a, double b, double t)
-{
-	return ((1.0 - t) * a + b * t);
 }
