@@ -30,6 +30,8 @@
 # define Q 12
 # define E 14
 # define J 38
+# define PLUS 69
+# define MINUS 78
 # define SCROLL_UP 4
 # define SCROLL_DOWN 5
 # define SCALE_COEFFICIENT 20
@@ -157,7 +159,7 @@ int			get_mid_color(int start, int end, double to_pass, double passed);
 
 t_point		get_modified_point(t_env *env, t_point point);
 
-double		degree_to_rad(int degree);
+double		degree_to_rad(double degree);
 
 void		clear_z_buffer(t_env *env);
 

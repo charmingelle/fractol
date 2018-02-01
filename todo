@@ -2,7 +2,7 @@
   Double check Makefile
   Get rid of unnecessary functions in header, make other functions static
   Norminette
-  Add the ability to scroll Apoll
++ Add the ability to change Apoll scale
 + Turn Cantor and Sers slightly to them to look better
 + Add flags to Makefile
 + Create close event for each window separately

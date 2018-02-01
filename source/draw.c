@@ -80,32 +80,28 @@ void	draw_2seg(t_env *env, t_2point start, t_2point end, int color)
 	{
 		x = ROUND((end.x - start.x) * t) + start.x;
 		y = ROUND((end.y - start.y) * t) + start.y;
-		env->image_data[y * WIDTH + x] = color;
+		if (x >= 0 && x < WIDTH && y >= 0 && y < HEIGHT)
+			env->image_data[y * WIDTH + x] = color;
 		t += step;
 	}
 }
 
 void	draw_circle(t_env *env, t_circle circle, int color)
 {
-	t_2point	cur;
-	t_2point	prev;
-	double		phi;
-	double		step;
+	int		x;
+	int		y;
+	double	phi;
+	double	step;
 
-	step = 0.01;
+	step = 1.0 / (2.0 * M_PI * circle.rad);
 	phi = 0.0;
-	prev.x = 0;
-	prev.y = 0;
-	while (phi < 361.0)
+	while (phi <= 360.0)
 	{
-		cur.x = circle.rad * cos(degree_to_rad(phi)) + circle.center.x;
-		cur.y = circle.rad * sin(degree_to_rad(phi)) + circle.center.y;
-		if (prev.x != 0 && prev.y != 0)
-			draw_2seg(env, prev, cur, color);
-		env->image_data[(int)cur.y * WIDTH + (int)cur.x] = color;
+		x = ROUND(circle.rad * cos(degree_to_rad(phi)) + circle.center.x);
+		y = ROUND(circle.rad * sin(degree_to_rad(phi)) + circle.center.y);
+		if (x >= 0 && x < WIDTH && y >= 0 && y < HEIGHT)
+			env->image_data[y * WIDTH + x] = color;
 		phi += step;
-		prev.x = cur.x;
-		prev.y = cur.y;
 	}
 }
 

@@ -1,8 +1,8 @@
 #include "../includes/header.h"
 
-double	degree_to_rad(int degree)
+double	degree_to_rad(double degree)
 {
-	return (((double)degree * M_PI) / 180.0);
+	return ((degree * M_PI) / 180.0);
 }
 
 double	get_2dist(t_2point a, t_2point b)

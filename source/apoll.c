@@ -164,10 +164,10 @@ void		fill_apoll(t_env *env)
 	double		rad;
 	t_circle	big;
 
-	rad = HEIGHT / 4.315;
-	c0 = get_circle(WIDTH / 2, rad, rad);
-	c1 = get_circle(WIDTH / 2 - rad, rad + rad * sqrt(3), rad);
-	c2 = get_circle(WIDTH / 2 + rad, rad + rad * sqrt(3), rad);
+	rad = (HEIGHT / 4.46) * env->fract.scale;
+	c0 = get_circle(WIDTH / 2 + env->fract.shift.x, rad + env->fract.shift.y, rad);
+	c1 = get_circle(WIDTH / 2 - rad + env->fract.shift.x, rad + rad * sqrt(3) + env->fract.shift.y, rad);
+	c2 = get_circle(WIDTH / 2 + rad + env->fract.shift.x, rad + rad * sqrt(3) + env->fract.shift.y, rad);
 	big = get_outer_circle(c0, c1, c2);
 	draw_circle(env, big, get_geom_palette_color(0));
 	if (env->fract.lev > 0)

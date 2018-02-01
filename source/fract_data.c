@@ -49,6 +49,8 @@ static t_fract	get_tricorn()
 	fract.scale = 0.005;
 	fract.shift.x = 0;
 	fract.shift.y = 0;
+	fract.pivot.x = 0.0;
+	fract.pivot.y = 0.0;
 	fract.man = "LEFT, RIGHT, UP, DOWN - move     SCROLL - change scale";
 	fract.file = "./cl/tricorn.cl";
 	return (fract);
@@ -59,8 +61,11 @@ static t_fract	get_apoll()
 	t_fract	fract;
 
 	fract.number = APOLL;
+	fract.scale = 1.0;
+	fract.shift.x = 0.0;
+	fract.shift.y = 0.0;
 	fract.lev = 0;
-	fract.man = "UP, DOWN - change number of circles";
+	fract.man = "PLUS, MINUS - change number of circles     LEFT, RIGHT, UP, DOWN - move";
 	return (fract);
 }
 

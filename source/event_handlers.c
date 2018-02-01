@@ -17,6 +17,8 @@ static void	arrow_left_handler(t_env *env)
 		env->fract.shift.x += env->fract.scale * 10;
 	else if (env->fract.number == JULIA && (changed = 1))
 		env->fract.pivot.x += env->fract.scale / 20;
+	else if (env->fract.number == APOLL && (changed = 1))
+		env->fract.shift.x -= env->fract.scale * 10;
 	else if (env->fract.number == TREE && (changed = 1))
 		env->fract.tilte -= 1;
 	changed ? draw(env) : 0;
@@ -31,6 +33,8 @@ static void	arrow_right_handler(t_env *env)
 		env->fract.shift.x -= env->fract.scale * 10;
 	else if (env->fract.number == JULIA && (changed = 1))
 		env->fract.pivot.x -= env->fract.scale / 20;
+	else if (env->fract.number == APOLL && (changed = 1))
+		env->fract.shift.x += env->fract.scale * 10;
 	else if (env->fract.number == TREE && (changed = 1))
 		env->fract.tilte += 1;
 	changed ? draw(env) : 0;
@@ -45,8 +49,8 @@ static void	arrow_up_handler(t_env *env)
 		env->fract.shift.y += env->fract.scale * 10;
 	else if (env->fract.number == JULIA && (changed = 1))
 		env->fract.pivot.y += env->fract.scale / 20;
-	else if (env->fract.number == APOLL && env->fract.lev < 7 && (changed = 1))
-		env->fract.lev += 1;
+	else if (env->fract.number == APOLL && (changed = 1))
+		env->fract.shift.y -= env->fract.scale * 10;
 	else if ((env->fract.number == SERP || env->fract.number == CANTOR) && env->fract.lev < 5 && (changed = 1))
 		env->fract.lev += 1;
 	else if (env->fract.number == TREE && (changed = 1))
@@ -63,11 +67,33 @@ static void	arrow_down_handler(t_env *env)
 		env->fract.shift.y -= env->fract.scale * 10;
 	else if (env->fract.number == JULIA && (changed = 1))
 		env->fract.pivot.y -= env->fract.scale / 20;
-	else if ((env->fract.number == APOLL || env->fract.number == SERP || env->fract.number == CANTOR) && env->fract.lev > 0 && (changed = 1))
+	else if (env->fract.number == APOLL && (changed = 1))
+		env->fract.shift.y += env->fract.scale * 10;
+	else if ((env->fract.number == SERP || env->fract.number == CANTOR) && env->fract.lev > 0 && (changed = 1))
 		env->fract.lev -= 1;
 	else if (env->fract.number == TREE && (changed = 1))
 		env->fract.closeness += 1;
 	changed ? draw(env) : 0;
+}
+
+void	plus_handler(t_env *env)
+{
+	if (env->fract.number == APOLL)
+	{
+		env->fract.lev += 1;
+		env->fract.lev > 10 ? (env->fract.scale += 0.1) : 0;
+		draw(env);
+	}
+}
+
+void	minus_handler(t_env *env)
+{
+	if (env->fract.number == APOLL)
+	{
+		env->fract.lev > 0 ? env->fract.lev -= 1 : 0;
+		env->fract.lev >= 10 ? (env->fract.scale -= 0.1) : 0;
+		draw(env);
+	}
 }
 
 int		close_wind_handler(t_env *env)
@@ -94,12 +120,13 @@ int		key_handler(int keycode, t_env *env)
 	keycode == S && rotatable && (rotated = 1) ? (env->ang_x = (env->ang_x + 5) % 360) : 0;
 	keycode == Q && rotatable && (rotated = 1) ? (env->ang_z = (env->ang_z + 5) % 360) : 0;
 	keycode == E && rotatable && (rotated = 1) ? (env->ang_z = (env->ang_z - 5) % 360) : 0;
-	printf("x = %d, y = %d, z = %d\n", env->ang_x, env->ang_y, env->ang_z);
 	rotatable && rotated ? draw(env) : 0;
 	keycode == ARROW_LEFT ? arrow_left_handler(env) : 0;
 	keycode == ARROW_RIGHT ? arrow_right_handler(env) : 0;
 	keycode == ARROW_UP ? arrow_up_handler(env) : 0;
 	keycode == ARROW_DOWN ? arrow_down_handler(env) : 0;
+	keycode == PLUS ? plus_handler(env) : 0;
+	keycode == MINUS ? minus_handler(env) : 0;
 	return (0);
 }
 
